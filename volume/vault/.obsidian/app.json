@@ -1,4 +1,5 @@
 {
-  "trashOption": "system",
-  "showInlineTitle": false
+  "trashOption": "local",
+  "showInlineTitle": false,
+  "livePreview": false
 }

@@ -24,7 +24,7 @@ case "$1" in
     run)
         NAME="$2"
 
-        cp $PWD/volume $PWD/volume-bkp
+        cp -r $PWD/volume $PWD/volume-bkp
         docker run \
             --name run.$NAME \
             -e SHELL=/bin/bash \
@@ -46,5 +46,5 @@ case "$1" in
             --build-arg GID=$(id -g) \
             --build-arg IMG=app.$IMG \
             -t app.$NAME .
-    ;;
+        ;;
 esac

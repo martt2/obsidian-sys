@@ -60,7 +60,7 @@ RUN \
 # zsh configuracoes
 RUN \
     touch /home/$USER/.zshrc; \
-    [[ ! grep -q "^# obsidian personal configuration" /home/$USER/.zshrc ]] && cat ./zsh/zshrc >> /home/$USER/.zshrc
+    grep -q "^# obsidian personal configuration" /home/$USER/.zshrc || cat ./zsh/zshrc >> /home/$USER/.zshrc;
 
 ENV TERM=xterm-256color
 # ENV LANG=en_US.UTF-8

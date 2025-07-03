@@ -7,10 +7,13 @@ compdef _obsidian_cli_complete obsidian-cli
 _obsidian_cli_complete() {
     local -a commands
     commands=(
-        'add-storage:cria um storage'
+        'add-storage:cria um storage [user] [name] [tags]'
     )
     _describe 'command' commands
 }
 
 #fpath=(~/.zsh/completion $fpath)
 autoload -Uz compinit && compinit
+
+# Trash
+TRASH=$HOME/.local/share/Trash

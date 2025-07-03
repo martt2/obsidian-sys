@@ -1,26 +1,15 @@
 #! /bin/bash
 
-UUID=$(uuidgen)
-USER=$1
-NAME=$2
-TAG
-BTN=$( cat <<EOF
- |-
-  \`\`\`meta-bind-button
-  label: active
-  icon: ""
-  style: default
-  class: ""
-  cssStyle: ""
-  tooltip: ""
-  id: ""
-  hidden: false
-  actions:
-    - type: command
-      command: ""
-  
-  \`\`\`
+VAULT=/usr/local/src/vault
+STORAGE=/usr/local/src/storage
 
-EOF
+ENV="VAULT=$VAULT STORAGE=$STORAGE"
+CMD=$VAULT/sys/cmd/lib/$1.sh
 
-)
+shift 1
+
+if ! [ -f $CMD ]; then
+  echo 'command not found'
+fi
+
+env $ENV $CMD $@

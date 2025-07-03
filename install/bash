@@ -6,7 +6,7 @@ bash
 curl
 locales
 fonts-noto-color-emoji
-trash
+trash-cli
 libglib2.0-bin
 libx11-6
 libx11-xcb1
