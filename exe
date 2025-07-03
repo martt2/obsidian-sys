@@ -1,0 +1,50 @@
+#! /bin/bash
+
+# obsidian --no-sandbox --disable-gpu /usr/local/src/obsidian/run/model
+
+# -v $XDG_RUNTIME_DIR/bus:$XDG_RUNTIME_DIR/bus \
+# -e DBUS_SESSION_BUS_ADDRESS="unix:path=$XDG_RUNTIME_DIR/bus" \
+
+            # -v $PWD/volume/vault:/usr/local/src/vault \
+            # -v $PWD/volume/storage:/usr/local/src/storage \
+
+case "$1" in
+    run-conf)
+        NAME="$2"
+
+        docker run \
+            --name run.$NAME \
+            -e SHELL=/bin/bash \
+            -e DISPLAY=$DISPLAY \
+            -v /tmp/.X11-unix:/tmp/.X11-unix \
+            -v $HOME/.Xauthority:/root/.Xauthority \
+            --device /dev/dri \
+            --rm -it app.$NAME
+        ;;
+    run)
+        NAME="$2"
+
+        cp $PWD/volume $PWD/volume-bkp
+        docker run \
+            --name run.$NAME \
+            -e SHELL=/bin/bash \
+            -e DISPLAY=$DISPLAY \
+            -v /tmp/.X11-unix:/tmp/.X11-unix \
+            -v $HOME/.Xauthority:/root/.Xauthority \
+            -v $PWD/volume/vault:/usr/local/src/vault \
+            -v $PWD/volume/storage:/usr/local/src/storage \
+            --device /dev/dri \
+            --rm -it app.$NAME
+        ;;
+    build)
+        IMG="$2"
+        NAME="$3"
+
+        docker build \
+            --build-arg USER=$(whoami) \
+            --build-arg UID=$(id -u) \
+            --build-arg GID=$(id -g) \
+            --build-arg IMG=app.$IMG \
+            -t app.$NAME .
+    ;;
+esac

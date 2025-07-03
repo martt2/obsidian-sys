@@ -1,0 +1,16 @@
+#
+# obsidian personal configuration
+#
+
+compdef _obsidian_cli_complete obsidian-cli
+
+_obsidian_cli_complete() {
+    local -a commands
+    commands=(
+        'add-storage:cria um storage'
+    )
+    _describe 'command' commands
+}
+
+#fpath=(~/.zsh/completion $fpath)
+autoload -Uz compinit && compinit
