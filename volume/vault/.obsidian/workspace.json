@@ -4,33 +4,35 @@
     "type": "split",
     "children": [
       {
-        "id": "6125c1a377a2bea9",
+        "id": "60d720bb60fd054e",
         "type": "tabs",
         "children": [
           {
-            "id": "4519cf80eba4edd7",
-            "type": "leaf",
-            "state": {
-              "type": "database-plugin",
-              "state": {
-                "file": "view/view.md"
-              },
-              "icon": "database-folder-icon",
-              "title": "view"
-            }
-          },
-          {
-            "id": "e1b74a73f109f5b3",
+            "id": "2b92a8923757b416",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "view/data/d99f3e58-5eab-4efb-86e3-4c9099b977aa.md",
+                "file": "view/data/36cbeeb1-e39a-457c-b126-575a645d31f7.md",
                 "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "d99f3e58-5eab-4efb-86e3-4c9099b977aa"
+              "title": "36cbeeb1-e39a-457c-b126-575a645d31f7"
+            }
+          },
+          {
+            "id": "406bd538ac6d19af",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "form/add-storage.md",
+                "mode": "preview",
+                "source": true
+              },
+              "icon": "lucide-file",
+              "title": "add-storage"
             }
           }
         ]
@@ -90,14 +92,12 @@
             "id": "23c6b9f9c3adcade",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "database-plugin",
               "state": {
-                "file": "view/data/d39c3d23-d046-49cd-ac74-8aa9a3600680.md",
-                "mode": "source",
-                "source": true
+                "file": "view/view.md"
               },
-              "icon": "lucide-file",
-              "title": "d39c3d23-d046-49cd-ac74-8aa9a3600680"
+              "icon": "database-folder-icon",
+              "title": "view"
             }
           }
         ]
@@ -193,19 +193,23 @@
       "obsidian-shellcommands:Shell commands: Custom variables": false
     }
   },
-  "active": "4519cf80eba4edd7",
+  "active": "2b92a8923757b416",
   "lastOpenFiles": [
+    "form/add-storage.md",
+    "sys/model/meta-bind-embed/btn-view.md",
+    "view/data/36cbeeb1-e39a-457c-b126-575a645d31f7.md",
+    "view/view.md",
+    "form/Untitled.md",
+    "view/data/3d481596-b9a7-4a40-a6d5-59b8bdbee693.md",
+    "view/data/test.md",
+    "sys/model/meta-bind-embed",
+    "sys/model",
     "view/data/27b9c0aa-c0c7-40cd-b52a-03bacedbf029.md",
     "view/data/d99f3e58-5eab-4efb-86e3-4c9099b977aa.md",
-    "view/view.md",
     "view/data/d39c3d23-d046-49cd-ac74-8aa9a3600680.md",
-    "view/data/test.md",
     "main.md",
     "view/data",
     "Untitled.md",
-    "form/add-storage.md",
-    "form/Untitled.md",
-    "view/Untitled.canvas",
-    "Untitled"
+    "view/Untitled.canvas"
   ]
 }
