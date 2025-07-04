@@ -1,0 +1,2 @@
+add-storage:cria um storage [user] [name] [tags]
+remove-storage: remove um storage [id]

@@ -1,9 +1,12 @@
 #! /bin/bash
 
-VAULT=/usr/local/src/vault
-STORAGE=/usr/local/src/storage
+source $HOME/.obsidian-cli/env
 
-ENV="VAULT=$VAULT STORAGE=$STORAGE"
+# VAULT=/usr/local/src/vault
+# STORAGE=/usr/local/src/storage
+
+# ENV="VAULT=$VAULT STORAGE=$STORAGE"
+ENV="$(cat $HOME/.obsidian-cli/env | xargs)"
 CMD=$VAULT/sys/cmd/lib/$1.sh
 
 shift 1

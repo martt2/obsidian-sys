@@ -2,13 +2,18 @@
 # obsidian personal configuration
 #
 
+source $HOME/.obsidian-cli/env
+
 compdef _obsidian_cli_complete obsidian-cli
 
 _obsidian_cli_complete() {
     local -a commands
-    commands=(
-        'add-storage:cria um storage [user] [name] [tags]'
-    )
+    local cmdfile=$VAULT/sys/cmd/help
+    if [[ -f "$cmdfile" ]]; then
+        commands=("${(@f)$(< "$cmdfile")}")
+    else
+        commands=("help:Could not load commands file")
+    fi
     _describe 'command' commands
 }
 

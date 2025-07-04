@@ -59,8 +59,10 @@ RUN \
 
 # zsh configuracoes
 RUN \
+    mkdir -p /home/$USER/.obsidian-cli \
     touch /home/$USER/.zshrc; \
-    grep -q "^# obsidian personal configuration" /home/$USER/.zshrc || cat ./zsh/zshrc >> /home/$USER/.zshrc;
+    grep -q "^# obsidian personal configuration" /home/$USER/.zshrc || cat ./zsh/zshrc >> /home/$USER/.zshrc; \
+    cat ./zsh/env >> /home/$USER/.obsidian-cli/env
 
 ENV TERM=xterm-256color
 # ENV LANG=en_US.UTF-8
