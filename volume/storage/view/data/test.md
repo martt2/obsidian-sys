@@ -1,22 +1,11 @@
 ---
 user: user
 name: test-file
-tag:
+tag: 
 btn: |-
-  ```meta-bind-button
-  label: work
-  icon: ""
-  style: default
-  class: ""
-  cssStyle: ""
-  backgroundImage: ""
-  tooltip: ""
-  id: ""
-  hidden: false
-  actions:
-    - type: inlineJS
-      code: console.log("Hello world")
-      args: {}
-
+  `BUTTON[btn-work, btn-remove]`
+  ```meta-bind-embed
+  [[sys/model/meta-bind-embed/btn-view]]
   ```
+
 ---

@@ -40,13 +40,15 @@ columns:
     skipPersist: false
     isHidden: false
     sortIndex: -1
-    width: 309
+    width: 240
     options:
       - { label: "test", value: "test", color: "hsl(356, 95%, 90%)"}
       - { label: "aaa", value: "aaa", color: "hsl(135, 95%, 90%)"}
       - { label: "bbb", value: "bbb", color: "hsl(52, 95%, 90%)"}
       - { label: "ccc", value: "ccc", color: "hsl(142, 95%, 90%)"}
       - { label: "movie", value: "movie", color: "hsl(101, 95%, 90%)"}
+      - { label: "music", value: "music", color: "hsl(8, 95%, 90%)"}
+      - { label: "midia", value: "midia", color: "hsl(14, 95%, 90%)"}
     config:
       enable_media_view: true
       link_alias_enabled: true
@@ -87,6 +89,7 @@ columns:
     sortIndex: -1
     options:
       - { label: "user", value: "user", color: "hsl(0, 95%, 90%)"}
+      - { label: "user1", value: "user1", color: "hsl(162, 95%, 90%)"}
     config:
       enable_media_view: true
       link_alias_enabled: true
@@ -106,7 +109,7 @@ columns:
     skipPersist: false
     isHidden: false
     sortIndex: -1
-    width: 199
+    width: 180
     config:
       enable_media_view: true
       link_alias_enabled: true
