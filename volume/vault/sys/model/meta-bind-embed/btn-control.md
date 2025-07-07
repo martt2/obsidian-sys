@@ -1,3 +1,7 @@
+## Controle
+
+`BUTTON[btn-work, btn-remove]`
+
 ```meta-bind-button
   label: work
   id: btn-work
@@ -17,6 +21,7 @@
   ```meta-bind-button
   label: remove
   id: btn-remove
+  target: this
   hidden: true
   icon: ""
   style: destructive
@@ -25,8 +30,10 @@
   backgroundImage: ""
   tooltip: ""
   actions:
-    - type: inlineJS
-      code: console.log("remove")
-      args: {}
+    - type: command
+      command: obsidian-shellcommands:shell-command-nkb0qej408
+    - type: open
+      link: view/view.md
+      newTab: false
 
   ```

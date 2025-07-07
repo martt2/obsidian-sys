@@ -1,7 +1,5 @@
 ---
-
 database-plugin: basic
-
 ---
 
 ```yaml:dbfolder
@@ -19,8 +17,9 @@ columns:
     isDragDisabled: false
     csvCandidate: true
     isHidden: true
-    position: 2
+    position: 5
     sortIndex: -1
+    width: 326
     config:
       enable_media_view: true
       link_alias_enabled: true
@@ -30,17 +29,18 @@ columns:
       task_hide_completed: true
       footer_type: none
       persist_changes: false
+      wrap_content: true
   tag:
     input: tags
     accessorKey: tag
     key: tag
     id: tag
     label: tag
-    position: 5
+    position: 4
     skipPersist: false
     isHidden: false
     sortIndex: -1
-    width: 240
+    width: 436
     options:
       - { label: "test", value: "test", color: "hsl(356, 95%, 90%)"}
       - { label: "aaa", value: "aaa", color: "hsl(135, 95%, 90%)"}
@@ -49,6 +49,11 @@ columns:
       - { label: "movie", value: "movie", color: "hsl(101, 95%, 90%)"}
       - { label: "music", value: "music", color: "hsl(8, 95%, 90%)"}
       - { label: "midia", value: "midia", color: "hsl(14, 95%, 90%)"}
+      - { label: "ti", value: "ti", color: "hsl(27, 95%, 90%)"}
+      - { label: "linux", value: "linux", color: "hsl(347, 95%, 90%)"}
+      - { label: "hacker", value: "hacker", color: "hsl(24, 95%, 90%)"}
+      - { label: "- ti - linux - hacker", value: "- ti - linux - hacker", color: "hsl(189, 95%, 90%)"}
+      - { label: "coisa", value: "coisa", color: "hsl(79, 95%, 90%)"}
     config:
       enable_media_view: true
       link_alias_enabled: true
@@ -64,10 +69,11 @@ columns:
     key: name
     id: name
     label: name
-    position: 4
+    position: 3
     skipPersist: false
     isHidden: false
     sortIndex: -1
+    width: 318
     config:
       enable_media_view: true
       link_alias_enabled: true
@@ -83,33 +89,15 @@ columns:
     key: user
     id: user
     label: user
-    position: 3
+    position: 2
     skipPersist: false
     isHidden: false
     sortIndex: -1
+    width: 154
     options:
       - { label: "user", value: "user", color: "hsl(0, 95%, 90%)"}
       - { label: "user1", value: "user1", color: "hsl(162, 95%, 90%)"}
-    config:
-      enable_media_view: true
-      link_alias_enabled: true
-      media_width: 100
-      media_height: 100
-      isInline: false
-      task_hide_completed: true
-      footer_type: none
-      persist_changes: false
-  btn:
-    input: text
-    accessorKey: btn
-    key: btn
-    id: btn
-    label: btn
-    position: 6
-    skipPersist: false
-    isHidden: false
-    sortIndex: -1
-    width: 180
+      - { label: "add-storage", value: "add-storage", color: "hsl(24, 95%, 90%)"}
     config:
       enable_media_view: true
       link_alias_enabled: true
@@ -132,7 +120,26 @@ columns:
     position: 1
     isHidden: false
     sortIndex: -1
-    width: 103
+    width: 210
+    config:
+      enable_media_view: true
+      link_alias_enabled: true
+      media_width: 100
+      media_height: 100
+      isInline: false
+      task_hide_completed: true
+      footer_type: none
+      persist_changes: false
+  note:
+    input: text
+    accessorKey: note
+    key: note
+    id: btn
+    label: note
+    position: 6
+    skipPersist: false
+    isHidden: false
+    sortIndex: -1
     config:
       enable_media_view: true
       link_alias_enabled: true
