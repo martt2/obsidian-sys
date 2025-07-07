@@ -6,6 +6,7 @@ source $HOME/.obsidian-cli/env
 # STORAGE=/usr/local/src/storage
 
 # ENV="VAULT=$VAULT STORAGE=$STORAGE"
+
 ENV="$(cat $HOME/.obsidian-cli/env | xargs)"
 CMD=$VAULT/sys/cmd/lib/$1.sh
 
@@ -15,4 +16,10 @@ if ! [ -f $CMD ]; then
   echo 'command not found'
 fi
 
-env $ENV $CMD $@
+args=()
+for arg in "$@"; do
+    cleaned="${arg//\\}"
+    args+=("$cleaned")
+done
+
+env $ENV $CMD ${args[@]}
