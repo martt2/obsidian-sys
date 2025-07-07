@@ -1,5 +1,6 @@
 {
   "trashOption": "local",
   "showInlineTitle": false,
-  "livePreview": false
+  "livePreview": false,
+  "defaultViewMode": "source"
 }

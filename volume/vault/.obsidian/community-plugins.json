@@ -2,7 +2,8 @@
   "dataview",
   "dbfolder",
   "obsidian-languagetool-plugin",
-  "obsidian-meta-bind-plugin",
   "obsidian-shellcommands",
-  "js-engine"
+  "js-engine",
+  "customjs",
+  "obsidian-meta-bind-plugin"
 ]
