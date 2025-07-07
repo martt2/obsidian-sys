@@ -1,7 +1,3 @@
----
-tag: []
-name: ""
----
 # Add Storage
 ---
 Criar um **Storage**
@@ -26,7 +22,12 @@ id: btn-add
 hidden: true
 actions:
   - type: command
-    command: ""
+    command: obsidian-shellcommands:shell-command-x8sh3o2t8h
+  - type: input
+    str: Criado novo Storage
+  - type: open
+    link: view/view.md
+    newTab: false
 
 ```
 
@@ -41,7 +42,8 @@ tooltip: ""
 id: btn-back
 hidden: true
 actions:
-  - type: command
-    command: ""
+  - type: open
+    link: main.md
+    newTab: false
 
 ```
