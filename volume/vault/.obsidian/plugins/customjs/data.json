@@ -1,5 +1,5 @@
 {
-  "jsFiles": "",
+  "jsFiles": "sys/js/main.js",
   "jsFolder": "",
   "startupScriptNames": [],
   "registeredInvocableScriptNames": [],
