@@ -4,17 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "09eef7614800c8ab",
+        "id": "159aa15022983100",
         "type": "tabs",
         "children": [
           {
-            "id": "9409a41bf25e9d30",
+            "id": "523b4f5896455be0",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "main.md",
+                "mode": "preview",
+                "source": true
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "main"
             }
           }
         ]
@@ -172,22 +176,28 @@
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
       "dbfolder:Create a new database table": false,
-      "obsidian-shellcommands:Shell commands: Custom variables": false
+      "obsidian-shellcommands:Shell commands: Custom variables": false,
+      "homepage:Open homepage": false
     }
   },
-  "active": "9409a41bf25e9d30",
+  "active": "523b4f5896455be0",
   "lastOpenFiles": [
+    "Untitled.md",
+    "gatohack.jpg",
     "main.md",
-    "pages/form/add-storage.md",
-    "view/data/9777a77a-b926-43e1-92d3-82ad7be4704f.md",
     "view/view.md",
+    "view/data/eae2082b-b9ac-4e3f-8d7b-d051c6d042e3.md",
+    "work/eae2082b-b9ac-4e3f-8d7b-d051c6d042e3",
+    "pages/form/add-storage.md",
+    "view/data/40fcfa06-ae2c-4515-a723-e919f3891869.md",
+    "work/40fcfa06-ae2c-4515-a723-e919f3891869",
+    "pages/help.md",
     "pages/conf.md",
+    "view/data/9777a77a-b926-43e1-92d3-82ad7be4704f.md",
     "view/data/76cd5836-081e-4e9c-98af-bebb0c918646.md",
     "view/data/c8c7535e-76ee-48d4-b222-a1c187d659d7.md",
     "view/data/c0520adf-5f5f-4662-bfc1-393b7409d584.md",
     "view/data/89d035d2-3e98-4c7a-b537-f606371cd3bd.md",
-    "pages/help.md",
-    "Untitled.md",
     "pages",
     "view/data/d0b588b2-f959-4b02-bc2e-03db754fe484.md",
     "view/data/f80ab0a4-f0a5-4303-92f0-2702623e8fbb.md",
@@ -197,7 +207,6 @@
     "sys/model/meta-bind-embed/btn-control.md",
     "sys/model/meta-bind-embed/btn-goto.md",
     "work/d0b588b2-f959-4b02-bc2e-03db754fe484",
-    "gatohack.jpg",
     "test.md",
     "sys/css/main.css",
     "work/7cf52222-2ca0-4d08-b6d4-59c628c605ea/test.md",
@@ -207,13 +216,8 @@
     "work/data/f80ab0a4-f0a5-4303-92f0-2702623e8fbb",
     "work/data/a2f248e9-dab1-488a-b41b-01fdca37ab7b",
     "work/data/7cf52222-2ca0-4d08-b6d4-59c628c605ea",
-    "work/data/35a62ea5-ad51-420a-a234-a133c135d44b",
-    "work/data",
     "view/data/02a7236a-9425-41e9-a522-3fe432d5ad33.md",
     "view/data/8f7c1397-eec1-48ca-bc80-5d715b12c2b5.md",
-    "view/data/5375ff60-ff18-4897-9a8c-9ef87baea65a.md",
-    "sys/model/meta-bind-embed/btn-control 1.md",
-    "view/data/5ac9e5d4-3830-4be2-b5f1-309275a40f3b.md",
     "view/Untitled.canvas"
   ]
 }

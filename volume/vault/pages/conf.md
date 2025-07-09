@@ -1,6 +1,3 @@
----
-user: newuser
----
 # Conf
 ---
 

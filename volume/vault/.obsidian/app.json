@@ -2,5 +2,6 @@
   "trashOption": "local",
   "showInlineTitle": false,
   "livePreview": false,
-  "defaultViewMode": "source"
+  "defaultViewMode": "preview",
+  "readableLineLength": true
 }

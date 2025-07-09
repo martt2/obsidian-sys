@@ -1,9 +1,3 @@
----
-name: test2
-tag:
-  - newuser
-user: newuser
----
 ```dataviewjs
 global.conf = dv.page("pages/conf");
 dv.paragraph(`# Add Storage - @${conf.user}`)

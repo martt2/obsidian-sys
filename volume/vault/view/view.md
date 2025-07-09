@@ -42,24 +42,6 @@ columns:
     sortIndex: -1
     width: 436
     options:
-      - { label: "test", value: "test", color: "hsl(356, 95%, 90%)"}
-      - { label: "aaa", value: "aaa", color: "hsl(135, 95%, 90%)"}
-      - { label: "bbb", value: "bbb", color: "hsl(52, 95%, 90%)"}
-      - { label: "ccc", value: "ccc", color: "hsl(142, 95%, 90%)"}
-      - { label: "movie", value: "movie", color: "hsl(101, 95%, 90%)"}
-      - { label: "music", value: "music", color: "hsl(8, 95%, 90%)"}
-      - { label: "midia", value: "midia", color: "hsl(14, 95%, 90%)"}
-      - { label: "ti", value: "ti", color: "hsl(27, 95%, 90%)"}
-      - { label: "linux", value: "linux", color: "hsl(347, 95%, 90%)"}
-      - { label: "hacker", value: "hacker", color: "hsl(24, 95%, 90%)"}
-      - { label: "- ti - linux - hacker", value: "- ti - linux - hacker", color: "hsl(189, 95%, 90%)"}
-      - { label: "coisa", value: "coisa", color: "hsl(79, 95%, 90%)"}
-      - { label: "books", value: "books", color: "hsl(2, 95%, 90%)"}
-      - { label: "pdf", value: "pdf", color: "hsl(6, 95%, 90%)"}
-      - { label: "ebooks", value: "ebooks", color: "hsl(66, 95%, 90%)"}
-      - { label: "xyz", value: "xyz", color: "hsl(275, 95%, 90%)"}
-      - { label: "testaaa", value: "testaaa", color: "hsl(128, 95%, 90%)"}
-      - { label: "newuser", value: "newuser", color: "hsl(16, 95%, 90%)"}
     config:
       enable_media_view: true
       link_alias_enabled: true
@@ -69,6 +51,7 @@ columns:
       task_hide_completed: true
       footer_type: none
       persist_changes: false
+      option_source: manual
   name:
     input: text
     accessorKey: name
@@ -101,12 +84,6 @@ columns:
     sortIndex: -1
     width: 154
     options:
-      - { label: "user", value: "user", color: "hsl(0, 95%, 90%)"}
-      - { label: "user1", value: "user1", color: "hsl(162, 95%, 90%)"}
-      - { label: "add-storage", value: "add-storage", color: "hsl(24, 95%, 90%)"}
-      - { label: "test", value: "test", color: "hsl(126, 95%, 90%)"}
-      - { label: "martt", value: "martt", color: "hsl(293, 95%, 90%)"}
-      - { label: "newuser", value: "newuser", color: "hsl(175, 95%, 90%)"}
     config:
       enable_media_view: true
       link_alias_enabled: true
@@ -116,6 +93,7 @@ columns:
       task_hide_completed: true
       footer_type: none
       persist_changes: false
+      option_source: manual
   __modified__:
     key: __modified__
     id: __modified__
