@@ -1,10 +1,15 @@
-## Controle
+### Work
+Sessão responsavel pelo **workspace** do **storage**
 
-`BUTTON[btn-work, btn-remove]`
+**alias :** `INPUT[text:work-alias]` `BUTTON[btn-work-link]` `BUTTON[btn-work-unlink]`
+
+---
+
+Remover o storage: `BUTTON[btn-remove]`
 
 ```meta-bind-button
-  label: work
-  id: btn-work
+  label: link
+  id: btn-work-link
   hidden: true
   icon: ""
   style: default
@@ -13,11 +18,25 @@
   backgroundImage: ""
   tooltip: ""
   actions:
-    - type: inlineJS
-      code: console.log("work")
-      args: {}
+    - type: command
+      command: obsidian-shellcommands:shell-command-2zxct2vnks
   ```
-  
+
+```meta-bind-button
+  label: unlink
+  id: btn-work-unlink
+  hidden: true
+  icon: ""
+  style: default
+  class: ""
+  cssStyle: ""
+  backgroundImage: ""
+  tooltip: ""
+  actions:
+    - type: command
+      command: obsidian-shellcommands:shell-command-krdt4m1npw
+  ```
+
   ```meta-bind-button
   label: remove
   id: btn-remove
@@ -33,7 +52,7 @@
     - type: command
       command: obsidian-shellcommands:shell-command-nkb0qej408
     - type: open
-      link: view/view.md
+      link: main.md
       newTab: false
 
   ```

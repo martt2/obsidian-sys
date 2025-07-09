@@ -54,6 +54,9 @@ columns:
       - { label: "hacker", value: "hacker", color: "hsl(24, 95%, 90%)"}
       - { label: "- ti - linux - hacker", value: "- ti - linux - hacker", color: "hsl(189, 95%, 90%)"}
       - { label: "coisa", value: "coisa", color: "hsl(79, 95%, 90%)"}
+      - { label: "books", value: "books", color: "hsl(2, 95%, 90%)"}
+      - { label: "pdf", value: "pdf", color: "hsl(6, 95%, 90%)"}
+      - { label: "ebooks", value: "ebooks", color: "hsl(66, 95%, 90%)"}
     config:
       enable_media_view: true
       link_alias_enabled: true

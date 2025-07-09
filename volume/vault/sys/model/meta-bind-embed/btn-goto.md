@@ -1,6 +1,6 @@
 ## Ir para
 
-`BUTTON[btn-main, btn-view]`
+`BUTTON[btn-main]` `BUTTON[btn-view]`
 
 ```meta-bind-button
 label: main
