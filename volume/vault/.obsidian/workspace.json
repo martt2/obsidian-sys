@@ -4,21 +4,35 @@
     "type": "split",
     "children": [
       {
-        "id": "24122ecd3b71e27b",
+        "id": "d2b83f922559eee4",
         "type": "tabs",
         "children": [
           {
-            "id": "b2d4ccc2361960e4",
+            "id": "152d86915339ba6c",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
                 "file": "main.md",
-                "mode": "source",
+                "mode": "preview",
                 "source": true
               },
               "icon": "lucide-file",
               "title": "main"
+            }
+          },
+          {
+            "id": "7e537ff6d6d3f62c",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "help.md",
+                "mode": "preview",
+                "source": true
+              },
+              "icon": "lucide-file",
+              "title": "help"
             }
           }
         ]
@@ -179,22 +193,36 @@
       "obsidian-shellcommands:Shell commands: Custom variables": false
     }
   },
-  "active": "b2d4ccc2361960e4",
+  "active": "152d86915339ba6c",
   "lastOpenFiles": [
-    "Untitled.md",
+    "help.md",
     "main.md",
-    "test.md",
     "view/view.md",
-    "view/data/7cf52222-2ca0-4d08-b6d4-59c628c605ea.md",
-    "view/data/02a7236a-9425-41e9-a522-3fe432d5ad33.md",
-    "form/add-storage.md",
     "view/data/a2f248e9-dab1-488a-b41b-01fdca37ab7b.md",
-    "view/data/8f7c1397-eec1-48ca-bc80-5d715b12c2b5.md",
+    "view/data/7cf52222-2ca0-4d08-b6d4-59c628c605ea.md",
     "sys/model/meta-bind-embed/btn-control.md",
-    "view/data/f80ab0a4-f0a5-4303-92f0-2702623e8fbb.md",
-    "view/data/35a62ea5-ad51-420a-a234-a133c135d44b.md",
-    "view/data/5375ff60-ff18-4897-9a8c-9ef87baea65a.md",
     "sys/model/meta-bind-embed/btn-goto.md",
+    "view/data/35a62ea5-ad51-420a-a234-a133c135d44b.md",
+    "view/data/d0b588b2-f959-4b02-bc2e-03db754fe484.md",
+    "work/d0b588b2-f959-4b02-bc2e-03db754fe484",
+    "form/add-storage.md",
+    "gatohack.jpg",
+    "test.md",
+    "sys/css/main.css",
+    "view/data/f80ab0a4-f0a5-4303-92f0-2702623e8fbb.md",
+    "work/7cf52222-2ca0-4d08-b6d4-59c628c605ea/test.md",
+    "work/7cf52222-2ca0-4d08-b6d4-59c628c605ea",
+    "work/f80ab0a4-f0a5-4303-92f0-2702623e8fbb/Untitled.md",
+    "work/f80ab0a4-f0a5-4303-92f0-2702623e8fbb",
+    "work/data/f80ab0a4-f0a5-4303-92f0-2702623e8fbb",
+    "work/data/a2f248e9-dab1-488a-b41b-01fdca37ab7b",
+    "work/data/7cf52222-2ca0-4d08-b6d4-59c628c605ea",
+    "work/data/35a62ea5-ad51-420a-a234-a133c135d44b",
+    "work/data",
+    "sys/cmd/lib/storage-remove.sh",
+    "view/data/02a7236a-9425-41e9-a522-3fe432d5ad33.md",
+    "view/data/8f7c1397-eec1-48ca-bc80-5d715b12c2b5.md",
+    "view/data/5375ff60-ff18-4897-9a8c-9ef87baea65a.md",
     "sys/model/meta-bind-embed/btn-control 1.md",
     "view/data/5ac9e5d4-3830-4be2-b5f1-309275a40f3b.md",
     "view/data/f3f23bb9-7a0c-456d-9007-423833edfc86.md",
@@ -203,16 +231,6 @@
     "view/data/9a0502d5-6f7a-4ce0-b15b-e91edf4b3dda.md",
     "view/data/dd44e54f-12f2-4e4f-a068-227a34c576db.md",
     "view/data/0e5a6d66-ac72-463d-92bb-66cb9d2121bd.md",
-    "view/data/3a3dcb8a-1ba8-4e1d-ab2e-228be56d128f.md",
-    "view/data/bc6535b8-c1bd-49c6-ba95-16e9c7abf848.md",
-    "view/data/393fabe7-e18e-408f-976d-697207b9ae5c.md",
-    "view/data/2af1c4ea-8ede-44ba-87e4-78e2e504870b.md",
-    "sys/js/main.js",
-    "sys/cmd/lib/test.sh",
-    "sys/cmd/lib/remove-storage.sh",
-    "sys/model/meta-bind-embed",
-    "sys/model",
-    "view/data",
     "view/Untitled.canvas"
   ]
 }
