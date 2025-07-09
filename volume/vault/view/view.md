@@ -57,6 +57,9 @@ columns:
       - { label: "books", value: "books", color: "hsl(2, 95%, 90%)"}
       - { label: "pdf", value: "pdf", color: "hsl(6, 95%, 90%)"}
       - { label: "ebooks", value: "ebooks", color: "hsl(66, 95%, 90%)"}
+      - { label: "xyz", value: "xyz", color: "hsl(275, 95%, 90%)"}
+      - { label: "testaaa", value: "testaaa", color: "hsl(128, 95%, 90%)"}
+      - { label: "newuser", value: "newuser", color: "hsl(16, 95%, 90%)"}
     config:
       enable_media_view: true
       link_alias_enabled: true
@@ -101,6 +104,9 @@ columns:
       - { label: "user", value: "user", color: "hsl(0, 95%, 90%)"}
       - { label: "user1", value: "user1", color: "hsl(162, 95%, 90%)"}
       - { label: "add-storage", value: "add-storage", color: "hsl(24, 95%, 90%)"}
+      - { label: "test", value: "test", color: "hsl(126, 95%, 90%)"}
+      - { label: "martt", value: "martt", color: "hsl(293, 95%, 90%)"}
+      - { label: "newuser", value: "newuser", color: "hsl(175, 95%, 90%)"}
     config:
       enable_media_view: true
       link_alias_enabled: true

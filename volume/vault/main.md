@@ -1,4 +1,9 @@
-# Main
+```dataviewjs
+global.conf = dv.page("pages/conf");
+dv.paragraph(`# Main - @${conf.user}`)
+
+```
+
 ---
 
 ```dataviewjs
@@ -6,7 +11,8 @@ const {main} = await cJS()
 
 const btn = {
 	comp: '`BUTTON[btn-view, btn-add-storage]`',
-	help: '`BUTTON[btn-help]`'
+	help: '`BUTTON[btn-help]`',
+	conf: '`BUTTON[btn-conf]`',
 }
 
 main.flexbox(dv,
@@ -18,6 +24,7 @@ ${btn.comp}
 `
 ## ⚙️ Config
 Configurações
+${btn.conf}
 `,
 `
 ## 📚 Help
@@ -56,7 +63,7 @@ id: btn-add-storage
 hidden: true
 actions:
   - type: open
-    link: form/add-storage.md
+    link: pages/form/add-storage.md
     newTab: false
 
 ```
@@ -73,7 +80,24 @@ id: btn-help
 hidden: true
 actions:
   - type: open
-    link: help.md
+    link: pages/help.md
+    newTab: false
+
+```
+
+```meta-bind-button
+label: conf
+icon: ""
+style: default
+class: ""
+cssStyle: ""
+backgroundImage: ""
+tooltip: ""
+id: btn-conf
+hidden: true
+actions:
+  - type: open
+    link: pages/conf.md
     newTab: false
 
 ```

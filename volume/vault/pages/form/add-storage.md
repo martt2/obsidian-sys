@@ -1,14 +1,23 @@
-# Add Storage
 ---
-Criar um **Storage**
+name: test2
+tag:
+  - newuser
+user: newuser
+---
+```dataviewjs
+global.conf = dv.page("pages/conf");
+dv.paragraph(`# Add Storage - @${conf.user}`)
+```
 
-**user:** user
+---
+
+Criar um **Storage**
 
 **nome:** `INPUT[text(placeholder(nome)):name]`
 
 **tags:** `INPUT[inlineList():tag]`
 
-`BUTTON[btn-add,btn-back]`
+`BUTTON[btn-add]`
 
 ```meta-bind-button
 label: add
@@ -21,6 +30,12 @@ tooltip: ""
 id: btn-add
 hidden: true
 actions:
+  - type: updateMetadata
+    bindTarget: user
+    evaluate: true
+    value: "conf.user"
+  - type: sleep
+    ms: 1000
   - type: command
     command: obsidian-shellcommands:shell-command-x8sh3o2t8h
   - type: input
@@ -28,7 +43,6 @@ actions:
   - type: open
     link: view/view.md
     newTab: false
-
 ```
 
 ```meta-bind-button
@@ -46,4 +60,8 @@ actions:
     link: main.md
     newTab: false
 
+```
+
+```meta-bind-embed
+[[sys/model/meta-bind-embed/btn-goto]]
 ```

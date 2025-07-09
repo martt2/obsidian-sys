@@ -4,35 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "d2b83f922559eee4",
+        "id": "09eef7614800c8ab",
         "type": "tabs",
         "children": [
           {
-            "id": "152d86915339ba6c",
+            "id": "9409a41bf25e9d30",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "main.md",
-                "mode": "preview",
-                "source": true
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "main"
-            }
-          },
-          {
-            "id": "7e537ff6d6d3f62c",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "help.md",
-                "mode": "preview",
-                "source": true
-              },
-              "icon": "lucide-file",
-              "title": "help"
+              "title": "New tab"
             }
           }
         ]
@@ -193,23 +175,31 @@
       "obsidian-shellcommands:Shell commands: Custom variables": false
     }
   },
-  "active": "152d86915339ba6c",
+  "active": "9409a41bf25e9d30",
   "lastOpenFiles": [
-    "help.md",
     "main.md",
+    "pages/form/add-storage.md",
+    "view/data/9777a77a-b926-43e1-92d3-82ad7be4704f.md",
     "view/view.md",
+    "pages/conf.md",
+    "view/data/76cd5836-081e-4e9c-98af-bebb0c918646.md",
+    "view/data/c8c7535e-76ee-48d4-b222-a1c187d659d7.md",
+    "view/data/c0520adf-5f5f-4662-bfc1-393b7409d584.md",
+    "view/data/89d035d2-3e98-4c7a-b537-f606371cd3bd.md",
+    "pages/help.md",
+    "Untitled.md",
+    "pages",
+    "view/data/d0b588b2-f959-4b02-bc2e-03db754fe484.md",
+    "view/data/f80ab0a4-f0a5-4303-92f0-2702623e8fbb.md",
+    "view/data/35a62ea5-ad51-420a-a234-a133c135d44b.md",
     "view/data/a2f248e9-dab1-488a-b41b-01fdca37ab7b.md",
     "view/data/7cf52222-2ca0-4d08-b6d4-59c628c605ea.md",
     "sys/model/meta-bind-embed/btn-control.md",
     "sys/model/meta-bind-embed/btn-goto.md",
-    "view/data/35a62ea5-ad51-420a-a234-a133c135d44b.md",
-    "view/data/d0b588b2-f959-4b02-bc2e-03db754fe484.md",
     "work/d0b588b2-f959-4b02-bc2e-03db754fe484",
-    "form/add-storage.md",
     "gatohack.jpg",
     "test.md",
     "sys/css/main.css",
-    "view/data/f80ab0a4-f0a5-4303-92f0-2702623e8fbb.md",
     "work/7cf52222-2ca0-4d08-b6d4-59c628c605ea/test.md",
     "work/7cf52222-2ca0-4d08-b6d4-59c628c605ea",
     "work/f80ab0a4-f0a5-4303-92f0-2702623e8fbb/Untitled.md",
@@ -219,18 +209,11 @@
     "work/data/7cf52222-2ca0-4d08-b6d4-59c628c605ea",
     "work/data/35a62ea5-ad51-420a-a234-a133c135d44b",
     "work/data",
-    "sys/cmd/lib/storage-remove.sh",
     "view/data/02a7236a-9425-41e9-a522-3fe432d5ad33.md",
     "view/data/8f7c1397-eec1-48ca-bc80-5d715b12c2b5.md",
     "view/data/5375ff60-ff18-4897-9a8c-9ef87baea65a.md",
     "sys/model/meta-bind-embed/btn-control 1.md",
     "view/data/5ac9e5d4-3830-4be2-b5f1-309275a40f3b.md",
-    "view/data/f3f23bb9-7a0c-456d-9007-423833edfc86.md",
-    "view/data/91b31949-9c88-47aa-9477-95a87505e57f.md",
-    "view/data/ebff2a1b-4c5e-4ef0-ac3c-0c83bbef0b40.md",
-    "view/data/9a0502d5-6f7a-4ce0-b15b-e91edf4b3dda.md",
-    "view/data/dd44e54f-12f2-4e4f-a068-227a34c576db.md",
-    "view/data/0e5a6d66-ac72-463d-92bb-66cb9d2121bd.md",
     "view/Untitled.canvas"
   ]
 }
