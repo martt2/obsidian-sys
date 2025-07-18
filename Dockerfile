@@ -2,7 +2,7 @@ ARG IMG=debian
 FROM $IMG
 
 # argumentos via cli 
-ARG DEV=0
+ARG VERSION
 ARG USER=obsidian
 ARG UID
 ARG GID
@@ -15,17 +15,29 @@ COPY . .
 
 SHELL [ "/bin/bash", "-c" ]
 
+# cria diretórios
+RUN \ 
+    mkdir -p /usr/local/src/storage; \
+    mkdir -p /usr/local/src/vault;
+
 # cria o usuario host
 RUN if ! id -u $USER &> /dev/null; then \
     groupadd -g $GID $USER && \
-    useradd -m -u $UID -g $GID $USER && \
-    chown -R $USER:$USER /usr/local/src/obsidian; \
+    useradd -m -u $UID -g $GID $USER; \
 fi
+
+# permisões do USER
+RUN \
+    chown -R $USER:$USER /usr/local/src/obsidian; \
+    chown -R $USER:$USER /usr/local/src/storage; \
+    chown -R $USER:$USER /usr/local/src/vault;
 
 # links shell
 RUN \
     ln -sf /usr/local/src/vault/sys/cmd/app.sh /usr/local/bin/obsidian-app; \
     ln -sf /usr/local/src/vault/sys/cmd/cli.sh /usr/local/bin/obsidian-cli;
+
+# ---
 
 # dependencias do sistema
 RUN apt-get update && \
@@ -45,30 +57,19 @@ RUN mkdir -p download; \
     done < ./install/wget; \
     apt-get update && apt-get install -f -y && apt-get clean;
 
-# extrair o vault
-RUN if [[ $DEV == 0 ]]; then \
-    mkdir -p /usr/local/src/vault; \
-    unzip ./vault/vault-00.01.00.zip -d /usr/local/src/vault; \
-fi
-
-# configurar vault
-RUN if [[ -d /usr/local/src/vault ]]; then \
-    mv /usr/local/src/vault/obsidian /usr/local/src/vault/.obsidian; \
-    chown -R $USER:$USER /usr/local/src/vault; \
-fi
-
-# concede execução para os scripts shell
-RUN if [[ -d /usr/local/src/vault/ ]]; then \
-    chmod +x /usr/local/src/vault/sys/cmd/*; \
-    chmod +x /usr/local/src/vault/sys/cmd/lib/*; \
-fi
+# ---
 
 USER $USER
 
-# links armazenamento
-# RUN \
-#     ln -sf /usr/local/src/vault   /home/$USER/vault; \
-#     ln -sf /usr/local/src/storage /home/$USER/storage;
+# configurar vault
+RUN \
+    unzip ./vault/vault-$VERSION.zip -d /usr/local/src/vault; \
+    mv /usr/local/src/vault/obsidian /usr/local/src/vault/.obsidian;
+
+# concede execução
+RUN \
+    chmod +x /usr/local/src/vault/sys/cmd/*; \
+    chmod +x /usr/local/src/vault/sys/cmd/lib/*;
 
 # copia cli configuracoes
 RUN \

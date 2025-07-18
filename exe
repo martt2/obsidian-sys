@@ -8,43 +8,110 @@
             # -v $PWD/volume/vault:/usr/local/src/vault \
             # -v $PWD/volume/storage:/usr/local/src/storage \
 
-case "$1" in
-    run-conf)
-        NAME="$2"
+_help() {
+    echo "Uso: $0 <cmd> [opções]"
+    echo ""
+    echo "Comandos disponíveis:"
+    echo ""
+    echo "  build <version> <base> <nome>  Constrói a imagem Docker"
+    echo ""
+    echo "  create-vault <version>         Cria um novo vault "
+    echo ""
+    echo "  run <nome> [opções]            Executa o contêiner"
+    echo "    Opções:"
+    echo "      -r            Executar como root"
+    echo "      -t            Usar shell em vez do app"
+    echo "      -v <vault>    Montar cofre"
+    echo "      -s <storage>  Montar armazenamento"
+    echo "      -e <ext>      Adicionar extensão ao nome"
+    echo ""
+    exit 1
+}
 
-        docker run \
-            --name run.$NAME \
-            -u root \
-            -e SHELL=/bin/bash \
-            -e DISPLAY=$DISPLAY \
-            -v /tmp/.X11-unix:/tmp/.X11-unix \
-            -v $HOME/.Xauthority:/root/.Xauthority \
-            --device /dev/dri \
-            --rm -it app.$NAME /bin/bash
-        ;;
+case "$1" in
     run)
         NAME="$2"
-        STORAGE="$3"
+        [ -z "$NAME" ] && echo "Erro: nome da imagem/container não informado" && exit 1
 
-        docker run \
-            --name run.$NAME \
-            -e SHELL=/bin/bash \
-            -e DISPLAY=$DISPLAY \
-            -v /tmp/.X11-unix:/tmp/.X11-unix \
-            -v $HOME/.Xauthority:/root/.Xauthority \
-            -v $STORAGE:/usr/local/src/storage \
-            --device /dev/dri \
-            --rm -it app.$NAME
-        ;;
+        ENV=(
+            --device /dev/dri
+            -e DISPLAY=$DISPLAY
+            -e SHELL=/bin/bash
+            -v /tmp/.X11-unix:/tmp/.X11-unix
+            -v $HOME/.Xauthority:/root/.Xauthority
+        )
+
+        EXE="/usr/local/bin/obsidian-app"
+        EXTENSION="run."
+
+        shift 2
+
+        while getopts 'rtv:s:e:' OP; do
+            case "$OP" in
+                r)
+                    ENV+=(-u 0)
+                ;;
+                t)
+                    EXE="/bin/bash"
+                ;;
+                v)
+                    VAULT=$OPTARG
+                    [ ! -d "$VAULT" ] && echo "Erro: diretório $VAULT não encontrado" && exit 1
+                    ENV+=(-v $VAULT:/usr/local/src/vault)
+                ;;
+                s)
+                    STORAGE=$OPTARG
+                    [ ! -d "$STORAGE" ] && echo "Erro: diretório $STORAGE não encontrado" && exit 1
+                    ENV+=(-v $STORAGE:/usr/local/src/storage)
+                ;;
+                e)
+                    EXTENSION="$EXTENSION$OPTARG."
+                ;;
+                *)
+                    _help
+                ;;
+            esac
+        done
+
+        shift $(($OPTIND -1))
+
+        IMAGE="app.${NAME}"
+        CONTAINER="${EXTENSION}${NAME}"
+
+        docker run "${ENV[@]}" --name "$CONTAINER" --rm -it "$IMAGE" "$EXE"
+    ;;
     build)
-        IMG="$2"
-        NAME="$3"
+        VERSION="$2"
+        IMG="$3"
+        NAME="$4"
+
+
+        [ -z "$VERSION" ] || \
+        [ -z "$IMG" ] || \
+        [ -z "$NAME" ] && _help && exit 1
 
         docker build \
+            --build-arg VERSION=$VERSION \
             --build-arg USER=$(whoami) \
             --build-arg UID=$(id -u) \
             --build-arg GID=$(id -g) \
             --build-arg IMG=app.$IMG \
             -t app.$NAME .
-        ;;
+    ;;
+    create-vault)
+        VERSION="$2"
+        ZIP=$PWD/vault/vault-$VERSION.zip
+
+        
+        [ -z "$VERSION" ] && echo "Erro: versão não informada" && exit 1
+        [ ! -f "$ZIP" ] && echo "Erro: arquivo $ZIP não encontrado" && exit 1
+
+
+        unzip $ZIP -d $PWD/dev
+        mv $PWD/obsidian $PWD/.obsidian
+    ;;
+    *)
+        echo "Comando inválido: '$1'"
+        _help
+    ;;
 esac
