@@ -3,5 +3,6 @@
   "showInlineTitle": false,
   "livePreview": false,
   "defaultViewMode": "preview",
-  "readableLineLength": true
+  "readableLineLength": true,
+  "showUnsupportedFiles": true
 }

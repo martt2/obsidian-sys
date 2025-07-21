@@ -38,6 +38,9 @@ EOF
 
 mkdir -p $STORAGE/data/
 mkdir -p $STORAGE/view/data/
+mkdir -p $STORAGE/custom/js
+mkdir -p $STORAGE/custom/css
+mkdir -p $STORAGE/custom/cmd
 [[ -f $STORAGE/conf.md ]] || echo -e "$CONF" > $STORAGE/conf.md
 
 # chmod +x $VAULT/sys/cmd/*; \
