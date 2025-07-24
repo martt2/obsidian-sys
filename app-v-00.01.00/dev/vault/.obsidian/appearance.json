@@ -3,7 +3,8 @@
   "showViewHeader": true,
   "showRibbon": true,
   "enabledCssSnippets": [
-    "main"
+    "main",
+    "custom-test"
   ],
   "theme": "moonstone"
 }

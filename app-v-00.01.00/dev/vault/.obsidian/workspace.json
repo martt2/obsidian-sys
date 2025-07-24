@@ -182,8 +182,9 @@
   },
   "active": "e7a7b303c61786dc",
   "lastOpenFiles": [
-    "pages/conf.md",
     "main.md",
+    "sys/cmd/lib/custom-css-unlink.sh",
+    "pages/conf.md",
     "sys/ini",
     "pages/form/add-storage.md",
     "view/view.md",
@@ -217,7 +218,6 @@
     "work/7cf52222-2ca0-4d08-b6d4-59c628c605ea/test.md",
     "work/7cf52222-2ca0-4d08-b6d4-59c628c605ea",
     "work/f80ab0a4-f0a5-4303-92f0-2702623e8fbb/Untitled.md",
-    "work/f80ab0a4-f0a5-4303-92f0-2702623e8fbb",
     "view/Untitled.canvas"
   ]
 }
