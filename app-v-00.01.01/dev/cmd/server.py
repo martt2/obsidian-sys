@@ -11,15 +11,27 @@ LOG_FILE = 'server.log'
 
 os.makedirs('/usr/local/src/obsidian/logs', exist_ok=True)
 
+def set_cors_headers(handler):
+    handler.send_header("Access-Control-Allow-Origin", "*")
+    handler.send_header("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+    handler.send_header("Access-Control-Allow-Headers", "Content-Type")
+
+
 def log(msg):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     with open(f"/usr/local/src/obsidian/logs/{LOG_FILE}", "a") as f:
         f.write(f"[{timestamp}] > {msg}\n")
 
 class server(BaseHTTPRequestHandler):
+    def do_OPTIONS(self):
+        self.send_response(200)
+        set_cors_headers(self)
+        self.end_headers()
+
     def do_GET(self):
         log(f"GET :: {self.client_address}")
         self.send_response(200)
+        set_cors_headers(self)
         self.end_headers()
         self.wfile.write("server on\n".encode())
 
@@ -43,15 +55,18 @@ class server(BaseHTTPRequestHandler):
                         check=True
                     )
                     self.send_response(200)
+                    set_cors_headers(self)
                     self.end_headers()
                     self.wfile.write(res.stdout.encode())
                 except subprocess.CalledProcessError as e:
                     self.send_response(500)
+                    set_cors_headers(self)
                     self.end_headers()
                     self.wfile.write(e.stderr.encode())
                 return
             case _:
                 self.send_response(404)
+                set_cors_headers(self)
                 self.end_headers()
                 self.wfile.write("path not found\n".encode())
                 return
