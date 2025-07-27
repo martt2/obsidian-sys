@@ -1,0 +1,6 @@
+#
+# obsidian personal configuration
+#
+
+# Trash
+TRASH=$HOME/.local/share/Trash

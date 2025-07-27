@@ -1,0 +1,5 @@
+VERSION=00.01.01
+IMG_BASE=debian
+IMG_NAME=obsidian
+VAULT=/media/x/HOME/pastas/storage/obsidian/app-v-00.01.01/dev/vault
+STORAGE=/media/x/HOME/pastas/storage/obsidian/app-v-00.01.01/dev/storage

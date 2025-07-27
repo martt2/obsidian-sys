@@ -1,0 +1,5 @@
+test: test
+storage-add: cria um storage [user] [name] [tags]
+storage-remove: remove um storage [id]
+workspace-link: ativa um workspace [id]
+workspace-unlink: remove um workspace [id]
