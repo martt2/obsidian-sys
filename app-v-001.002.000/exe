@@ -22,19 +22,18 @@ _help() {
     echo "  create-vault <version>         Cria um novo vault "
     echo ""
     echo "  run <name> [options]           Executa o contêiner"
-    echo "    -r            Executar como root"
-    echo "    -t            Usar shell em vez do app"
-    echo "    -v <vault>    Montar cofre"
-    echo "    -s <storage>  Montar armazenamento"
-    echo "    -c <cmd>      Montar cmd"
-    echo "    -e <ext>      Adicionar extensão ao nome"
+    echo "    -c                           Ativar montagem do cmd"
+    echo "    -e <ext>                     Adicionar extensão ao nome"
+    echo "    -r                           Executar como root"
+    echo "    -t                           Usar shell em vez do app"
+    echo "    -v <(v|s|c):path>            Definir volume do (v)ault, (s)torage ou (c)md"
     echo ""
     exit 1
 }
 
 source ./env
 
-VERSION=${VERSION:"001.002.000"}
+VERSION=${VERSION:-"001.002.000"}
 OP=$1
 
 shift 1
@@ -58,7 +57,7 @@ case "$OP" in
 
         shift 1
 
-        while getopts 'rtv:s:c:e:' OP; do
+        while getopts 'rtv:s:ce:' OP; do
             case "$OP" in
                 r)
                 # entrar como root
@@ -69,20 +68,30 @@ case "$OP" in
                     EXE="/bin/bash"
                     OP_EXE="-ti"
                     ;;
+
                 v)
-                # caminho do vault
-                    VAULT=$OPTARG
-                    ;;
-                s)
-                # caminho do storage
-                    STORAGE=$OPTARG
+                # definir volumes
+                    IFS=':' read -r VOLUME PATH <<< "$OPTARG"
+
+                    case "$VOLUME" in
+                        v)
+                            VAULT=$PATH
+                            ;;
+                        s)
+                            STORAGE=$PATH
+                            ;;
+                        c)
+                            USE_CMD=true
+                            CMD=$PATH
+                            ;;
+                        *)
+                            _help "Err: VOLUME:\"$VOLUME\" invalid"
+                            ;;
+                    esac
                     ;;
                 c)
                 # caminho do cmd
-                    CMD=${OPTARG:-"$CMD"}
-                    [ ! -d "$CMD" ] && \
-                        _help "Err: CMD:\"$CMD\" not found"
-                    OP_DOCKER+=(-v $CMD:/usr/local/src/obsidian/cmd)
+                    USE_CMD=true
                     ;;
                 e)
                 # extensão do container
@@ -99,20 +108,27 @@ case "$OP" in
         IMAGE="app.$IMG_NAME"
         CONTAINER="$EXTENSION$IMG_NAME"
 
-        if ! [[ $VAULT == "" ]]; then
+        if [[ $VAULT != "" ]]; then
             [ ! -d "$VAULT" ] && \
                 _help "Err: VAULT:\"$VAULT\" not found"
             OP_DOCKER+=(-v $VAULT:/mnt/vault)
         fi
 
-        if ! [[ $STORAGE == "" ]]; then
+        if [[ $STORAGE != "" ]]; then
             [ ! -d "$STORAGE" ] && \
                 _help "Err: STORAGE:\"$STORAGE\" not found"
             OP_DOCKER+=(-v $STORAGE:/mnt/storage)
         fi
 
-        echo "VAULT: $VAULT"
-        echo "STORAGE: $STORAGE"
+        if [[ $USE_CMD && $CMD != "" ]]; then
+            [ ! -d "$CMD" ] && \
+                _help "Err: CMD:\"$CMD\" not found"
+            OP_DOCKER+=(-v $CMD:/usr/local/src/obsidian/cmd)
+        fi
+
+        echo "VAULT: ${VAULT:-"no path"}"
+        echo "STORAGE: ${STORAGE:-"no path"}"
+        [[ $USE_CMD ]] && echo "CMD: ${CMD:-"no path"}"
 
         docker run "${OP_DOCKER[@]}" --name "$CONTAINER" --rm "$OP_EXE" "$IMAGE" "$EXE"
 
