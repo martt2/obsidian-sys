@@ -1,0 +1,11 @@
+{
+  "jsFiles": "sys/js/main.js",
+  "jsFolder": "sys/js",
+  "startupScriptNames": [
+    "main"
+  ],
+  "registeredInvocableScriptNames": [
+    "main"
+  ],
+  "rerunStartupScriptsOnFileChange": false
+}
