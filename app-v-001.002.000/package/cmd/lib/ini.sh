@@ -41,7 +41,7 @@ EOF
 )
 
 if ! [[ -d /mnt/vault/$VERSION ]]; then
-    unzip /usr/local/src/obsidian/pkg/vault/$VERSION.zip -d /mnt/vault/$VERSION
+    unzip /usr/local/src/obsidian/pkg/vault.zip -d /mnt/vault/$VERSION
     mv /mnt/vault/$VERSION/obsidian /mnt/vault/$VERSION/.obsidian;
 fi
 

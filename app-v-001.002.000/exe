@@ -34,6 +34,7 @@ _help() {
 
 source ./env
 
+VERSION=${VERSION:"001.002.000"}
 OP=$1
 
 shift 1
@@ -47,6 +48,7 @@ case "$OP" in
 
         OP_DOCKER=(
             --env-file ./env
+            --env VERSION=$VERSION
             -p 5000:5000
         )
 
@@ -77,9 +79,10 @@ case "$OP" in
                     ;;
                 c)
                 # caminho do cmd
-                    [ ! -d "$OPTARG" ] && \
-                        _help "Err: CMD:\"$OPTARG\" not found"
-                    OP_DOCKER+=(-v $OPTARG:/usr/local/src/obsidian/cmd)
+                    CMD=${OPTARG:-"$CMD"}
+                    [ ! -d "$CMD" ] && \
+                        _help "Err: CMD:\"$CMD\" not found"
+                    OP_DOCKER+=(-v $CMD:/usr/local/src/obsidian/cmd)
                     ;;
                 e)
                 # extensão do container
