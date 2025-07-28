@@ -2,6 +2,8 @@
 
 # VERSION=${VERSION:-'00.01.01'}
 
+echo 'ini'
+
 CONF=$(cat <<-EOF
 
 # Conf
@@ -50,7 +52,7 @@ mkdir -p /mnt/storage/custom/css
 mkdir -p /mnt/storage/custom/cmd
 [[ -f /mnt/storage/conf.md ]] || echo -e "$CONF" > /mnt/storage/conf.md
 
-ln -sf /mnt/storage/conf.md /mnt/vault/$VERSION/pages/conf.md; \
-ln -sf /mnt/storage/view/data /mnt/vault/$VERSION/view/data; \
+ln -sf $STORAGE/conf.md /mnt/vault/$VERSION/pages/conf.md; \
+ln -sf $STORAGE/view/data /mnt/vault/$VERSION/view/data; \
 
 touch /mnt/vault/ini-$VERSION

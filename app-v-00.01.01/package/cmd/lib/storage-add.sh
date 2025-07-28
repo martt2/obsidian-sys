@@ -15,19 +15,8 @@ tag: $TAG
 note: "$NOTE"
 ---
 
-\`\`\`dataviewjs
-const name = dv.current().name
-dv.paragraph(\`# ${name}\`)
-\`\`\`
-
----
-
 \`\`\`meta-bind-embed
-[[sys/model/meta-bind-embed/btn-control]]
-\`\`\`
-
-\`\`\`meta-bind-embed
-[[sys/model/meta-bind-embed/btn-goto]]
+[[sys/model/view]]
 \`\`\`
 
 EOF

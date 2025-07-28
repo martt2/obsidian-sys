@@ -1,8 +1,0 @@
-#
-# obsidian personal configuration
-#
-
-source $HOME/.obsidian-cli/env
-
-# Trash
-TRASH=$HOME/.local/share/Trash

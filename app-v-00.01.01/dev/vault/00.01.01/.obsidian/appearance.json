@@ -1,9 +1,0 @@
-{
-  "nativeMenus": false,
-  "showViewHeader": true,
-  "showRibbon": true,
-  "enabledCssSnippets": [
-    "main"
-  ],
-  "theme": "moonstone"
-}
