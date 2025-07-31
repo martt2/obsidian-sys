@@ -1,7 +1,9 @@
 ```dataviewjs
 arm.link = ()=>{
 	const data = dv.current()
-	main.cmd(`workspace-link ${data.id}`).then()
+	main.cmd('workspace-link',{
+		uuid: data.id,
+	}).then()
 }
 ```
 

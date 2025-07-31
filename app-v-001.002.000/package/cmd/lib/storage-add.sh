@@ -3,16 +3,38 @@
 UUID=$(uuidgen)
 USER=$1
 NAME=$2
-TAG="$(echo $3 | sed 's|\(^.\)|#\1|g' | sed 's|#|\n - |g')"
+IFS=',' read -r -a TAG <<< "$3"
+#TAG="$(echo $3 | sed 's|\(^.\)|#\1|g' | sed 's|#|\n - |g')"
 NOTE="[open note](view/data/$UUID.md)"
 
-VIEW=$(cat <<-EOF
----
+if [[ $IS_REQ ]]; then
+    USER=$(jq -r '.user' $REQ)
+    NAME=$(jq -r '.name' $REQ)
+    IFS=$'\n' TAG=($(jq -r '.tag[]' $REQ))
+fi
+
+YAML=$( cat <<-EOF
+
 id: $UUID
 user: $USER
 name: $NAME
-tag: $TAG
 note: "$NOTE"
+$(
+    [[ "${#TAG[@]}" > 0 ]] && \
+        echo -e "tag:\n$(
+            echo  "${TAG[@]}" | xargs -d' ' -I {} echo "  - {}"
+        )"
+)
+
+EOF
+
+)
+
+YAML=$( echo -e "$YAML" | sed '/^$/d' )
+
+VIEW=$(cat <<-EOF
+---
+$YAML
 ---
 
 \`\`\`meta-bind-embed

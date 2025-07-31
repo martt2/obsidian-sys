@@ -1,7 +1,9 @@
 ```dataviewjs
 arm.remove = ()=>{
 	const data = dv.current()
-	main.cmd(`storage-remove ${data.id}`).then()
+	main.cmd('storage-remove',{
+		uuid: data.id,
+	}).then()
 }
 ```
 

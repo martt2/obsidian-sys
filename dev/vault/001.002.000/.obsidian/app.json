@@ -2,7 +2,7 @@
   "trashOption": "local",
   "showInlineTitle": false,
   "livePreview": false,
-  "defaultViewMode": "preview",
+  "defaultViewMode": "source",
   "readableLineLength": true,
   "showUnsupportedFiles": true
 }

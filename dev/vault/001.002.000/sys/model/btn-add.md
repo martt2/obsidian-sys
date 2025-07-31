@@ -1,7 +1,11 @@
 ```dataviewjs
 arm.submit = ()=>{
 	const data = dv.current()
-	main.cmd(`storage-add ${conf.user} ${data.name} ${data.tag.join('#')}`).then()
+	main.cmd('storage-add',{
+		user: conf.user,
+		name: data.name,
+		tag: data.tag,
+	}).then()
 }
 ```
 

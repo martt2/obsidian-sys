@@ -1,7 +1,9 @@
 ```dataviewjs
 arm.unlink = ()=>{
 	const data = dv.current()
-	main.cmd(`workspace-unlink ${data.id}`).then()
+	main.cmd('workspace-unlink',{
+		uuid: data.id,
+	}).then()
 }
 ```
 

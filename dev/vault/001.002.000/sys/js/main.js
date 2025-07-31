@@ -3,19 +3,19 @@ class main {
         this.start()
     }
 
-    async cmd(cmd) {
-        return fetch("http://localhost:5000/cmd", {
-            method: "POST",
-            body: cmd
-        })
-    }
-
     start() {
         const dv = app.plugins.plugins.dataview.api
         global.conf = dv.page("pages/conf");
         global.main = this
         global.arm = {}
         console.log('script start')
+    }
+
+    async cmd(cmd='', data={}) {
+        return fetch("http://localhost:5000/cmd", {
+            method: "POST",
+            body: JSON.stringify({ cmd, data })
+        })
     }
 
     flexbox(dv, ...arr) {
