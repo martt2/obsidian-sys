@@ -10,24 +10,29 @@
 #     echo "${result[@]}"
 # }
 
+HELP=$( cat <<-EOF
+
+Uso: $0 <cmd> [options]
+
+Comandos disponíveis:
+
+  build <base> <name>            Constrói a imagem Docker
+
+  create-vault <version>         Cria um novo vault 
+
+  run <name> [options]           Executa o contêiner
+    -c                           Ativar montagem do cmd
+    -e <ext>                     Adicionar extensão ao nome
+    -r                           Executar como root
+    -t                           Usar shell em vez do app
+    -v <(v|s|c):path>            Definir volume do (v)ault, (s)torage ou (c)md
+
+EOF
+   
+)
+
 _help() {
-    echo "$1"
-    echo ""
-    echo "Uso: $0 <cmd> [options]"
-    echo ""
-    echo "Comandos disponíveis:"
-    echo ""
-    echo "  build <base> <name>            Constrói a imagem Docker"
-    echo ""
-    echo "  create-vault <version>         Cria um novo vault "
-    echo ""
-    echo "  run <name> [options]           Executa o contêiner"
-    echo "    -c                           Ativar montagem do cmd"
-    echo "    -e <ext>                     Adicionar extensão ao nome"
-    echo "    -r                           Executar como root"
-    echo "    -t                           Usar shell em vez do app"
-    echo "    -v <(v|s|c):path>            Definir volume do (v)ault, (s)torage ou (c)md"
-    echo ""
+    echo -e "$HELP"
     exit 1
 }
 
@@ -105,8 +110,13 @@ case "$OP" in
 
         shift $(($OPTIND -1))
 
+        mkdir -p /tmp/obsidian-server/jobs
+        mkdir -p /tmp/obsidian-server/container/$CONTAINER
+
         IMAGE="app.$IMG_NAME"
         CONTAINER="$EXTENSION$IMG_NAME"
+
+        OP_DOCKER+=(-v /tmp/obsidian-server/container/$CONTAINER:/tmp/server)
 
         if [[ $VAULT != "" ]]; then
             [ ! -d "$VAULT" ] && \
@@ -126,12 +136,27 @@ case "$OP" in
             OP_DOCKER+=(-v $CMD:/usr/local/src/obsidian/cmd)
         fi
 
+        (
+            FIFO=/tmp/obsidian-server/jobs/event_die_$CONTAINER
+            mkfifo "$FIFO"
+
+            docker events --filter "event=die" --filter "container=$CONTAINER" > "$FIFO" &
+            DOCKER_PID=$!
+
+            while read -r event < "$FIFO"; do
+                rm -rf /tmp/obsidian-server/container/$CONTAINER
+                kill "$DOCKER_PID"
+                break
+            done
+            
+            rm -f "$FIFO"
+        ) &
+
         echo "VAULT: ${VAULT:-"no path"}"
         echo "STORAGE: ${STORAGE:-"no path"}"
         [[ $USE_CMD ]] && echo "CMD: ${CMD:-"no path"}"
 
         docker run "${OP_DOCKER[@]}" --name "$CONTAINER" --rm "$OP_EXE" "$IMAGE" "$EXE"
-
         ;;
     build)
         IMG_BASE=${1:-"$IMG_BASE"}
