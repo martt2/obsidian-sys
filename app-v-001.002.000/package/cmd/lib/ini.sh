@@ -13,35 +13,24 @@ CONF=$(cat <<-EOF
 
 \`BUTTON[btn-reload]\`
 
-\`\`\`meta-bind-button
-label: reload
-icon: ""
-style: primary
-class: ""
-cssStyle: ""
-backgroundImage: ""
-tooltip: ""
-id: btn-reload
-hidden: true
-actions:
-  - type: inlineJS
-    code: |-
-      const {main} = await cJS()
-      main.loadConf()
-    args: {}
+---
 
-\`\`\`
+Ir para: `BUTTON[btn-go-main]`
 
-\`\`\`meta-bind-embed
-[[sys/model/meta-bind-embed/btn-goto]]
-\`\`\`
+```meta-bind-embed
+[[sys/model/btn-reload]]
+```
+
+```meta-bind-embed
+[[sys/model/btn-go-main]]
+```
 
 EOF
 
 )
 
 if ! [[ -d /mnt/vault/$VERSION ]]; then
-    unzip /usr/local/src/obsidian/pkg/vault/$VERSION.zip -d /mnt/vault/$VERSION
+    unzip /usr/local/src/obsidian/pkg/vault.zip -d /mnt/vault/$VERSION
     mv /mnt/vault/$VERSION/obsidian /mnt/vault/$VERSION/.obsidian;
 fi
 

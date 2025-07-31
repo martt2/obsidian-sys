@@ -24,16 +24,18 @@ fi
 
 # criar diretorios
 RUN \
-    mkdir -p ./src/obsidian \
-    mkdir -p ./etc/obsidian \
-    mkdir -p /mnt/vault \
-    mkdir -p /mnt/storage
+    mkdir -p ./src/obsidian; \
+    mkdir -p ./etc/obsidian; \
+    mkdir -p /mnt/vault; \
+    mkdir -p /mnt/storage; \
+    mkdir -p /tmp/server;
 
 # permisões do USER
 RUN \
     chown -R $USER:$USER ./src/obsidian \
     chown -R $USER:$USER /mnt/storage; \
-    chown -R $USER:$USER /mnt/vault;
+    chown -R $USER:$USER /mnt/vault; \
+    chown -R $USER:$USER /tmp/server;
 
 # ---
 

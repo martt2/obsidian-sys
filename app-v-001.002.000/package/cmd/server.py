@@ -1,15 +1,18 @@
+import uuid
+import json
+import subprocess
+import os
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import urlparse
 from datetime import datetime
-import subprocess
-import os
 
 HOST = '0.0.0.0'
 PORT = 5000
 BIN = '/usr/local/bin/obsidian-cli'
 LOG_FILE = 'server.log'
 
-os.makedirs('/usr/local/src/obsidian/logs', exist_ok=True)
+os.makedirs('/tmp/server/data', exist_ok=True)
+os.makedirs('/tmp/server/log', exist_ok=True)
 
 def set_cors_headers(handler):
     handler.send_header("Access-Control-Allow-Origin", "*")
@@ -19,7 +22,7 @@ def set_cors_headers(handler):
 
 def log(msg):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    with open(f"/usr/local/src/obsidian/logs/{LOG_FILE}", "a") as f:
+    with open(f"/tmp/server/log/{LOG_FILE}", "a") as f:
         f.write(f"[{timestamp}] > {msg}\n")
 
 class server(BaseHTTPRequestHandler):
@@ -36,33 +39,61 @@ class server(BaseHTTPRequestHandler):
         self.wfile.write("server on\n".encode())
 
     def do_POST(self):
-        log(f"POST :: {self.client_address}")
+        client_id = f"{self.client_address[0]}_{self.client_address[1]}_{uuid.uuid4().hex}"
         url = urlparse(self.path)
-
         content_length = int(self.headers.get('Content-Length', 0))
         body = self.rfile.read(content_length).decode('utf-8').strip()
 
-        log(f"{url.path} :: {body}")
+        try:
+            vaule = json.loads(body)
+            cmd = vaule.get("cmd", "").strip()
+            data = vaule.get("data", {})
+        except json.JSONDecodeError:
+            self.send_response(400)
+            set_cors_headers(self)
+            self.end_headers()
+            self.wfile.write(b"invalid JSON\n")
+            return
+        
+        log(f"POST :: {client_id}")
+        log(f"{url.path} :: cmd={cmd} :: data={data}")
 
         match url.path:
             case "/cmd":
                 try:
+
+                    with open(f"/tmp/server/data/{client_id}.json", "w", encoding="utf-8") as f:
+                        json.dump(data, f, indent=2)
+
+                    env = os.environ.copy()
+                    env["CLIENT_ID"] = client_id
+
                     res = subprocess.run(
-                        f"{BIN} {body}",
+                        f"{BIN} {cmd}",
+                        env=env,
                         shell=True,
                         capture_output=True,
                         text=True,
                         check=True
                     )
+
                     self.send_response(200)
                     set_cors_headers(self)
                     self.end_headers()
                     self.wfile.write(res.stdout.encode())
+
                 except subprocess.CalledProcessError as e:
                     self.send_response(500)
                     set_cors_headers(self)
                     self.end_headers()
                     self.wfile.write(e.stderr.encode())
+
+                except Exception as e:
+                    self.send_response(500)
+                    set_cors_headers(self)
+                    self.end_headers()
+                    self.wfile.write(str(e).encode())
+
                 return
             case _:
                 self.send_response(404)

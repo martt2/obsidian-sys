@@ -1,0 +1,181 @@
+#! /bin/bash
+
+# _rm_item() {
+#     local to_remove="$1"
+#     shift
+#     local result=()
+#     for val in "$@"; do
+#         [[ "$val" != "$to_remove" ]] && result+=("$val")
+#     done
+#     echo "${result[@]}"
+# }
+
+HELP=$( cat <<-EOF
+
+Uso: $0 <cmd> [options]
+
+Comandos disponíveis:
+
+  build <base> <name>            Constrói a imagem Docker
+
+  create-vault <version>         Cria um novo vault 
+
+  run <name> [options]           Executa o contêiner
+    -c                           Ativar montagem do cmd
+    -e <ext>                     Adicionar extensão ao nome
+    -r                           Executar como root
+    -t                           Usar shell em vez do app
+    -v <(v|s|c):path>            Definir volume do (v)ault, (s)torage ou (c)md
+
+EOF
+   
+)
+
+_help() {
+    echo -e "$HELP"
+    exit 1
+}
+
+source ./env
+
+VERSION=${VERSION:-"001.002.000"}
+OP=$1
+
+shift 1
+
+case "$OP" in
+    run)
+        IMG_NAME=${1:-"$IMG_NAME"}
+        echo "IMG_NAME: $IMG_NAME"
+
+        [[ "$IMG_NAME" == "" ]] && _help 'Err: IMG_NAME not defined' && exit 1
+
+        OP_DOCKER=(
+            --env-file ./env
+            --env VERSION=$VERSION
+            -p 5000:5000
+        )
+
+        OP_EXE="-d"
+        EXE="/usr/local/bin/obsidian-main"
+        EXTENSION="run."
+
+        shift 1
+
+        while getopts 'rtv:s:ce:' OP; do
+            case "$OP" in
+                r)
+                # entrar como root
+                    OP_DOCKER+=(-u 0)
+                    ;;
+                t)
+                # executar terminal
+                    EXE="/bin/bash"
+                    OP_EXE="-ti"
+                    ;;
+
+                v)
+                # definir volumes
+                    IFS=':' read -r VOLUME PATH <<< "$OPTARG"
+
+                    case "$VOLUME" in
+                        v)
+                            VAULT=$PATH
+                            ;;
+                        s)
+                            STORAGE=$PATH
+                            ;;
+                        c)
+                            USE_CMD=true
+                            CMD=$PATH
+                            ;;
+                        *)
+                            _help "Err: VOLUME:\"$VOLUME\" invalid"
+                            ;;
+                    esac
+                    ;;
+                c)
+                # caminho do cmd
+                    USE_CMD=true
+                    ;;
+                e)
+                # extensão do container
+                    EXTENSION="$EXTENSION$OPTARG."
+                    ;;
+                *)
+                    _help
+                    ;;
+            esac
+        done
+
+        shift $(($OPTIND -1))
+
+        mkdir -p /tmp/obsidian-server/jobs
+        mkdir -p /tmp/obsidian-server/container/$CONTAINER
+
+        IMAGE="app.$IMG_NAME"
+        CONTAINER="$EXTENSION$IMG_NAME"
+
+        OP_DOCKER+=(-v /tmp/obsidian-server/container/$CONTAINER:/tmp/server)
+
+        if [[ $VAULT != "" ]]; then
+            [ ! -d "$VAULT" ] && \
+                _help "Err: VAULT:\"$VAULT\" not found"
+            OP_DOCKER+=(-v $VAULT:/mnt/vault)
+        fi
+
+        if [[ $STORAGE != "" ]]; then
+            [ ! -d "$STORAGE" ] && \
+                _help "Err: STORAGE:\"$STORAGE\" not found"
+            OP_DOCKER+=(-v $STORAGE:/mnt/storage)
+        fi
+
+        if [[ $USE_CMD && $CMD != "" ]]; then
+            [ ! -d "$CMD" ] && \
+                _help "Err: CMD:\"$CMD\" not found"
+            OP_DOCKER+=(-v $CMD:/usr/local/src/obsidian/cmd)
+        fi
+
+        (
+            FIFO=/tmp/obsidian-server/jobs/event_die_$CONTAINER
+            mkfifo "$FIFO"
+
+            docker events --filter "event=die" --filter "container=$CONTAINER" > "$FIFO" &
+            DOCKER_PID=$!
+
+            while read -r event < "$FIFO"; do
+                rm -rf /tmp/obsidian-server/container/$CONTAINER
+                kill "$DOCKER_PID"
+                break
+            done
+            
+            rm -f "$FIFO"
+        ) &
+
+        echo "VAULT: ${VAULT:-"no path"}"
+        echo "STORAGE: ${STORAGE:-"no path"}"
+        [[ $USE_CMD ]] && echo "CMD: ${CMD:-"no path"}"
+
+        docker run "${OP_DOCKER[@]}" --name "$CONTAINER" --rm "$OP_EXE" "$IMAGE" "$EXE"
+        ;;
+    build)
+        IMG_BASE=${1:-"$IMG_BASE"}
+        IMG_NAME=${2:-"$IMG_NAME"}
+        
+        echo "IMG_BASE: $IMG_BASE"
+        echo "IMG_NAME: $IMG_NAME"
+
+        [[ "$IMG_BASE" == "" ]] && _help 'Err: IMG_BASE not defined'
+        [[ "$IMG_NAME" == "" ]] && _help 'Err: IMG_NAME not defined'
+
+        docker build \
+            --build-arg USER=$(whoami) \
+            --build-arg UID=$(id -u) \
+            --build-arg GID=$(id -g) \
+            --build-arg IMG=app.$IMG_BASE \
+            -t app.$IMG_NAME .
+        ;;
+    *)
+        _help
+        ::
+esac
