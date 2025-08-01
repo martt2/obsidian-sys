@@ -4,7 +4,6 @@ UUID=$(uuidgen)
 USER=$1
 NAME=$2
 IFS=',' read -r -a TAG <<< "$3"
-#TAG="$(echo $3 | sed 's|\(^.\)|#\1|g' | sed 's|#|\n - |g')"
 NOTE="[open note](view/data/$UUID.md)"
 
 if [[ $IS_REQ ]]; then

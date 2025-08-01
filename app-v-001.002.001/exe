@@ -10,6 +10,8 @@
 #     echo "${result[@]}"
 # }
 
+cd "$(dirname "$0")"
+
 HELP=$( cat <<-EOF
 
 Uso: $0 <cmd> [options]
@@ -45,11 +47,6 @@ shift 1
 
 case "$OP" in
     run)
-        IMG_NAME=${1:-"$IMG_NAME"}
-        echo "IMG_NAME: $IMG_NAME"
-
-        [[ "$IMG_NAME" == "" ]] && _help 'Err: IMG_NAME not defined' && exit 1
-
         OP_DOCKER=(
             --env-file ./env
             --env VERSION=$VERSION
@@ -60,8 +57,6 @@ case "$OP" in
         EXE="/usr/local/bin/obsidian-main"
         EXTENSION="run."
 
-        shift 1
-
         while getopts 'rtv:s:ce:' OP; do
             case "$OP" in
                 r)
@@ -71,7 +66,7 @@ case "$OP" in
                 t)
                 # executar terminal
                     EXE="/bin/bash"
-                    OP_EXE="-ti"
+                    OP_EXE="-it"
                     ;;
 
                 v)
@@ -110,11 +105,14 @@ case "$OP" in
 
         shift $(($OPTIND -1))
 
-        mkdir -p /tmp/obsidian-server/jobs
-        mkdir -p /tmp/obsidian-server/container/$CONTAINER
+        IMG_NAME=${1:-"$IMG_NAME"}
+        [[ "$IMG_NAME" == "" ]] && _help 'Err: IMG_NAME not defined' && exit 1
 
         IMAGE="app.$IMG_NAME"
         CONTAINER="$EXTENSION$IMG_NAME"
+
+        mkdir -p /tmp/obsidian-server/jobs
+        mkdir -p /tmp/obsidian-server/container/$CONTAINER
 
         OP_DOCKER+=(-v /tmp/obsidian-server/container/$CONTAINER:/tmp/server)
 
@@ -136,6 +134,12 @@ case "$OP" in
             OP_DOCKER+=(-v $CMD:/usr/local/src/obsidian/cmd)
         fi
 
+        echo "VAULT: ${VAULT:-"no path"}"
+        echo "STORAGE: ${STORAGE:-"no path"}"
+        [[ $USE_CMD ]] && echo "CMD: ${CMD:-"no path"}"
+
+        docker run "${OP_DOCKER[@]}" --name "$CONTAINER" --rm "$OP_EXE" "$IMAGE" "$EXE" || echo "err"
+
         (
             FIFO=/tmp/obsidian-server/jobs/event_die_$CONTAINER
             mkfifo "$FIFO"
@@ -151,12 +155,6 @@ case "$OP" in
             
             rm -f "$FIFO"
         ) &
-
-        echo "VAULT: ${VAULT:-"no path"}"
-        echo "STORAGE: ${STORAGE:-"no path"}"
-        [[ $USE_CMD ]] && echo "CMD: ${CMD:-"no path"}"
-
-        docker run "${OP_DOCKER[@]}" --name "$CONTAINER" --rm "$OP_EXE" "$IMAGE" "$EXE"
         ;;
     build)
         IMG_BASE=${1:-"$IMG_BASE"}

@@ -1,7 +1,5 @@
 #! /bin/bash
 
-# VERSION=${VERSION:-'00.01.01'}
-
 echo 'ini'
 
 CONF=$(cat <<-EOF
@@ -15,15 +13,15 @@ CONF=$(cat <<-EOF
 
 ---
 
-Ir para: `BUTTON[btn-go-main]`
+Ir para: \`BUTTON[btn-go-main]\`
 
-```meta-bind-embed
+\`\`\`meta-bind-embed
 [[sys/model/btn-reload]]
-```
+\`\`\`
 
-```meta-bind-embed
+\`\`\`meta-bind-embed
 [[sys/model/btn-go-main]]
-```
+\`\`\`
 
 EOF
 
