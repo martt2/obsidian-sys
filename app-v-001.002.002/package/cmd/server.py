@@ -7,7 +7,7 @@ from urllib.parse import urlparse
 from datetime import datetime
 
 HOST = '0.0.0.0'
-PORT = 5000
+PORT = 80
 BIN = '/usr/local/bin/obsidian-cli'
 LOG_FILE = 'server.log'
 

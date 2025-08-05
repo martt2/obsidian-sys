@@ -10,7 +10,8 @@
 #     echo "${result[@]}"
 # }
 
-cd "$(dirname "$0")"
+DIR="$(dirname "$0")"
+cd $DIR
 
 HELP=$( cat <<-EOF
 
@@ -34,13 +35,15 @@ EOF
 )
 
 _help() {
+    echo -e "\n$1\n"
     echo -e "$HELP"
     exit 1
 }
 
 source ./env
 
-VERSION=${VERSION:-"001.002.000"}
+VERSION=${VERSION:-"001.002.002"}
+PORT=${PORT:-"5000"}
 OP=$1
 
 shift 1
@@ -50,7 +53,6 @@ case "$OP" in
         OP_DOCKER=(
             --env-file ./env
             --env VERSION=$VERSION
-            -p 5000:5000
         )
 
         OP_EXE="-d"
@@ -90,12 +92,16 @@ case "$OP" in
                     esac
                     ;;
                 c)
-                # caminho do cmd
+                # use cmd
                     USE_CMD=true
                     ;;
                 e)
-                # extensão do container
+                # extensao do container
                     EXTENSION="$EXTENSION$OPTARG."
+                    ;;
+                p)
+                # porta do server
+                    PORT=$OPTARG
                     ;;
                 *)
                     _help
@@ -110,11 +116,11 @@ case "$OP" in
 
         IMAGE="app.$IMG_NAME"
         CONTAINER="$EXTENSION$IMG_NAME"
+        OP_DOCKER+=(-v /tmp/obsidian-server/container/$CONTAINER:/tmp/server)
+        OP_DOCKER+=(-p $PORT:80)
 
         mkdir -p /tmp/obsidian-server/jobs
         mkdir -p /tmp/obsidian-server/container/$CONTAINER
-
-        OP_DOCKER+=(-v /tmp/obsidian-server/container/$CONTAINER:/tmp/server)
 
         if [[ $VAULT != "" ]]; then
             [ ! -d "$VAULT" ] && \
@@ -134,11 +140,10 @@ case "$OP" in
             OP_DOCKER+=(-v $CMD:/usr/local/src/obsidian/cmd)
         fi
 
+        echo "PORT: $PORT"
         echo "VAULT: ${VAULT:-"no path"}"
         echo "STORAGE: ${STORAGE:-"no path"}"
         [[ $USE_CMD ]] && echo "CMD: ${CMD:-"no path"}"
-
-        docker run "${OP_DOCKER[@]}" --name "$CONTAINER" --rm "$OP_EXE" "$IMAGE" "$EXE" || echo "err"
 
         (
             FIFO=/tmp/obsidian-server/jobs/event_die_$CONTAINER
@@ -155,6 +160,8 @@ case "$OP" in
             
             rm -f "$FIFO"
         ) &
+
+        docker run "${OP_DOCKER[@]}" --name "$CONTAINER" --rm "$OP_EXE" "$IMAGE" "$EXE" || echo "err"
         ;;
     build)
         IMG_BASE=${1:-"$IMG_BASE"}
@@ -173,6 +180,14 @@ case "$OP" in
             --build-arg IMG=app.$IMG_BASE \
             -t app.$IMG_NAME .
         ;;
+    dev)
+        mkdir -p ../dev/vault
+        mkdir -p ../dev/storage
+        ln -sf ../app-v-001.002.002/package/cmd ../dev/cmd
+    ;;
+    zip)
+        
+    ;;
     *)
         _help
         ::
