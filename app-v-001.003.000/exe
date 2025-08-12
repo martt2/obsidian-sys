@@ -42,7 +42,7 @@ _help() {
 
 source ./env
 
-VERSION=${VERSION:-"001.002.002"}
+VERSION=${VERSION:-"001.003.000"}
 PORT=${PORT:-"5000"}
 OP=$1
 
@@ -181,9 +181,11 @@ case "$OP" in
             -t app.$IMG_NAME .
         ;;
     dev)
+        VERSION=${1:-"$VERSION"}
+
         mkdir -p ../dev/vault
         mkdir -p ../dev/storage
-        ln -sf ../app-v-001.002.002/package/cmd ../dev/cmd
+        ln -sf ../app-v-$VERSION/package/cmd ../dev/cmd
     ;;
     zip)
         

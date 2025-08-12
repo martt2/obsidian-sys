@@ -1,0 +1,38 @@
+---
+name: livros
+---
+
+```dataviewjs
+arm = {}
+arm.data = dv.current()
+```
+
+# `$= arm.data.name`
+
+## control-database
+
+---
+
+database: main
+
+`INPUT[text:database]` `BUTTON[btn-change-database]`
+
+```dataviewjs
+dv.paragraph(`link: [[view/${arm.data.id}/main|database]]`)
+```
+
+---
+
+remover: `BUTTON[btn-remove]`
+
+---
+
+Ir para [main]
+
+```meta-bind-embed
+[[sys/model/btn-remove]]
+```
+
+```meta-bind-embed
+[[sys/model/btn-change-database]]
+```

@@ -44,12 +44,12 @@ RUN \
 # ---
 
 # copiar package
-COPY ./package ./src/obsidian/pkg
+COPY ./package ./src/obsidian/package
 
 # distribui os arquivos de package
 RUN \
-    cp -r ./src/obsidian/pkg/cmd ./src/obsidian/cmd;
-    # cp -r ./src/obsidian/pkg/rc/env ./etc/obsidian/env
+    cp -r ./src/obsidian/package/cmd ./src/obsidian/cmd;
+    # cp -r ./src/obsidian/package/rc/env ./etc/obsidian/env
 
 # ---
 
@@ -77,14 +77,14 @@ RUN \
 RUN if [[ -f /bin/zsh ]]; then \
     touch /home/$USER/.zshrc; \
     grep -q "^# obsidian personal configuration" /home/$USER/.zshrc || \
-        cat ./src/obsidian/pkg/rc/zsh/zshrc >> /home/$USER/.zshrc; \
+        cat ./src/obsidian/package/rc/zsh/zshrc >> /home/$USER/.zshrc; \
 fi
 
 # bash configuracoes
 RUN if [[ -f /bin/bash ]]; then \
     touch /home/$USER/.bashrc; \
     grep -q "^# obsidian personal configuration" /home/$USER/.bashrc || \
-        cat ./src/obsidian/pkg/rc/bash/bashrc >> /home/$USER/.bashrc; \
+        cat ./src/obsidian/package/rc/bash/bashrc >> /home/$USER/.bashrc; \
 fi
 
 # ---
@@ -95,7 +95,7 @@ fi
 
 # dependencias do sistema
 RUN apt-get update && \
-    apt-get install -y $(cat ./src/obsidian/pkg/install/bash) && \
+    apt-get install -y $(cat ./src/obsidian/package/install/bash) && \
     rm -rf /var/lib/apt/lists/*
 
 # ---

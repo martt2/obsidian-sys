@@ -1,0 +1,25 @@
+{
+  "user": "test",
+  "port": 5010,
+  "database": [
+    {
+      "name": "main",
+      "id": "main",
+      "data": [
+        "66e9465e-5fd1-4e4a-bb0b-c7db65eb4383"
+      ]
+    },
+    {
+      "name": "test-db",
+      "id": "66e9465e-5fd1-4e4a-bb0b-c7db65eb4383",
+      "data": [
+        "412aea10-eb58-415d-b72e-4738b948b2f4"
+      ]
+    },
+    {
+      "name": "test-db2",
+      "id": "412aea10-eb58-415d-b72e-4738b948b2f4",
+      "data": []
+    }
+  ]
+}

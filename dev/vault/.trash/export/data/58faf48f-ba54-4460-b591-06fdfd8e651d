@@ -1,0 +1,23 @@
+# Main - @`$=conf.user`
+
+---
+
+```dataviewjs
+main.flexbox(dv,
+`
+## 🗃️ Storages
+Gerenciador dos **storages**
+[add][view]
+`,
+`
+## ⚙️ Config
+Configurações
+[conf]
+`,
+`
+## 📚 Help
+Ajuda para usar o sistema
+[help]
+`
+)
+```

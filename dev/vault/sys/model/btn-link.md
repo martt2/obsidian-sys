@@ -1,0 +1,24 @@
+```dataviewjs
+sys.arm.link = ()=>{
+	const data = dv.current()
+	main.cmd('workspace-link',{
+		uuid: data.id,
+	}).then()
+}
+```
+
+```meta-bind-button
+  label: link
+  id: btn-link
+  hidden: true
+  icon: ""
+  style: default
+  class: ""
+  cssStyle: ""
+  backgroundImage: ""
+  tooltip: ""
+  actions:
+    - type: inlineJS
+      code: "sys.arm.link()"
+      args: {}
+  ```

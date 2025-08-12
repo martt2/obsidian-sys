@@ -1,0 +1,21 @@
+```dataviewjs
+arm.change_database = ()=>{
+
+}
+```
+
+```meta-bind-button
+  label: change database
+  id: btn-change-database
+  hidden: true
+  icon: ""
+  style: primary
+  class: ""
+  cssStyle: ""
+  backgroundImage: ""
+  tooltip: ""
+  actions:
+    - type: inlineJS
+      code: "arm.change_database()"
+      args: {}
+  ```

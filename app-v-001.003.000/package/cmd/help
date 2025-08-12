@@ -1,5 +1,9 @@
 test: test
+ini: inicia o vault e o storage
 storage-add: cria um storage [user] [name] [tags]
 storage-remove: remove um storage [id]
 workspace-link: ativa um workspace [id]
 workspace-unlink: remove um workspace [id]
+conf-get: retorna as configuracoes
+conf-set: define as configuracoes
+_database-create: cria database [uuid] [database] [name]
