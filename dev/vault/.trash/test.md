@@ -1,5 +1,0 @@
----
-rule: ""
-type: ""
-archived: false
----

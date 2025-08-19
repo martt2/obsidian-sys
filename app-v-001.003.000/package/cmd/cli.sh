@@ -24,13 +24,8 @@ else
     exit
 fi
 
-if [[ $CLIENT_ID != "" ]]; then
-    export REQ=/tmp/server/data/$CLIENT_ID.json
-    export IS_REQ=$([[ -f "$REQ" && -n "$CLIENT_ID" ]] && echo true || echo false)  
-else
-    export REQ=""
-    export IS_REQ=$(false)
-fi
+export REQ=/tmp/server/data/$CLIENT_ID.json
+export IS_REQ=$([[ -f "$REQ" && -n "$CLIENT_ID" ]] && echo true || echo false)
 
 /bin/bash $CMD $@
 

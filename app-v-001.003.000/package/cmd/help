@@ -1,5 +1,8 @@
 test: test
 ini: inicia o vault e o storage
+conf-db-add: adiciona um novo database [uuid] [database] [name]
+conf-db-change: muda de database [uuid] [database]
+conf-db-remove: remove o database [uuid]
 storage-add: cria um storage [user] [name] [tags]
 storage-remove: remove um storage [id]
 workspace-link: ativa um workspace [id]
