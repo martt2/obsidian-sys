@@ -1,4 +1,4 @@
-# 🟣 Obsidian
+# 🟣 Obsidian ( versao alpha )
 
 ## 🔍 Sobre
 Sistema de gerenciamento de arquivos no obsidian
