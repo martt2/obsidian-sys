@@ -1,0 +1,10 @@
+{
+  "trashOption": "local",
+  "showInlineTitle": false,
+  "livePreview": true,
+  "defaultViewMode": "preview",
+  "readableLineLength": true,
+  "showUnsupportedFiles": true,
+  "alwaysUpdateLinks": true,
+  "propertiesInDocument": "visible"
+}

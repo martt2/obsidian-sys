@@ -1,0 +1,32 @@
+// import * as _ from "./lib/lodash.js"
+
+class main {
+    async invoke() {
+        console.log('run invoke')
+        this.start().then()
+    }
+
+    async start() {
+        // debugger
+        console.log('run start')
+        Object.defineProperty(globalThis, "sys", {
+            value: {},
+            writable: false,
+            configurable: false,
+            enumerable: true
+        })
+
+        const s = await cJS()
+
+        sys.main = this
+        sys._ = {}
+
+        await s.load.ini()
+        s.api.ini()
+        s.event.ini()
+        s.route.ini()
+        s.context.ini()
+        s.db.ini()
+        s.md.ini()
+    }
+}

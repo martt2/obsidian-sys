@@ -1,0 +1,78 @@
+formulas:
+  edit: html('<a class="sys-db-edit" path="'+file.path+'" >edit</a>')
+  actived: "if(sys_type == 'database',html('<a class=\"sys-db-link\" path=\"database/view/'+ sys_id+ '.base\" >open database</a>'),html('<input style=\"width: 100%; --input-placeholder-color: var(--text-faint)\" class=\"sys-db-alias\" type=\"text\" placeholder=\"Type alias...\" value=\"'+file.properties.sys_actived+'\"><input class=\"sys-db-actived metadata-input-checkbox\" type=\"checkbox\" data-indeterminate=\"false\" ' +if (file.properties.sys_actived, 'checked', '') +' path=\"'+file.path+'\"  >'))"
+  link: "if(sys_type == 'database', html('<a class=\"sys-db-link\" path=\"database/view/'+sys_id+'.base\" >open database</a>'), html('<p style=\"color: var(--text-faint)\">undefined</p>'))"
+  remove: html('<a class="sys-db-remove" path="'+file.path+'" >remove</a>')
+properties:
+  note.sys_name:
+    displayName: name
+  note.sys_user:
+    displayName: user
+  note.sys_rule:
+    displayName: rule
+  note.sys_actived:
+    displayName: actived
+  note.sys_archived:
+    displayName: archived
+  note.sys_database:
+    displayName: database
+  note.sys_type:
+    displayName: type
+  file.tags:
+    displayName: tags
+  formula.actived:
+    displayName: action
+  formula.edit:
+    displayName: edit
+  formula.link:
+    displayName: link
+views:
+  - type: table
+    name: all
+    filters:
+      or:
+        - file.folder.split('/',2).join('/') == "database/data"
+    order:
+      - sys_user
+      - sys_name
+      - sys_rule
+      - sys_type
+      - file.tags
+      - sys_archived
+      - formula.actived
+      - formula.edit
+      - formula.remove
+  - type: table
+    name: database
+    filters:
+      or:
+        - file.folder.split('/',3).join('/') == "database/data/database"
+    order:
+      - sys_user
+      - sys_name
+      - formula.database
+      - formula.link
+      - sys_rule
+      - sys_type
+      - file.tags
+      - sys_archived
+      - formula.actived
+      - formula.edit
+      - formula.remove
+  - type: table
+    name: item
+    filters:
+      or:
+        - file.folder.split('/',3).join('/') == "database/data/item"
+    order:
+      - sys_user
+      - sys_name
+      - formula.database
+      - formula.link
+      - sys_rule
+      - sys_type
+      - file.tags
+      - sys_archived
+      - formula.actived
+      - formula.edit
+      - formula.remove

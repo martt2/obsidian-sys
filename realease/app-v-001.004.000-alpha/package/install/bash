@@ -1,0 +1,9 @@
+bash
+coreutils
+jq
+lsof
+python3
+python3-pip
+trash-cli
+uuid-runtime
+zip

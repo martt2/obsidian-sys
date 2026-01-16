@@ -1,0 +1,39 @@
+class load {
+
+    async ini() {
+        Object.hasOwn(sys.main, 'load') || (sys.main.load = this)
+        await this.conf()
+        await this.database()
+        await this.work()
+        sys.main.lodash = await this.require('sys/js/lib/lodash.js')
+    }
+
+    async require(path) {
+        // if (vaultModuleCache[path]) return vaultModuleCache[path];
+
+        const full = await app.vault.adapter.read(path);
+        const module = { exports: {} };
+
+        const fn = new Function("module", "exports", full);
+        fn(module, module.exports);
+
+        // vaultModuleCache[path] = module.exports;
+
+        return module.exports;
+    }
+
+    async conf() {
+        sys.conf = await app.vault.readJson('sys/conf/conf.json')
+        console.log('conf load')
+    }
+
+    async database() {
+        sys.database = await app.vault.readJson('sys/conf/database.json')
+        console.log('conf database')
+    }
+
+    async work() {
+        sys.work = await app.vault.readJson('sys/conf/work.json')
+        console.log('conf work')
+    }
+}

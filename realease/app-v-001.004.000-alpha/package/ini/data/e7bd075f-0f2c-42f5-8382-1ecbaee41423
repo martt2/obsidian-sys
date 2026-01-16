@@ -1,0 +1,55 @@
+```dataviewjs
+const { md } = sys.main
+
+md.render(dv, (md) => {
+	const btn_add = md.btn(async (prop, c) => {
+		const { api, load, context } = sys.main
+		const data = {
+			...c.metadata.value,
+			sys_database: c.context_data.data.path.slice(-1)[0]
+		}
+
+		const json = {
+			database: data.sys_database,
+			user: sys.conf.user,
+			name: data.sys_name,
+			rule: data.sys_rule,
+			type: data.sys_type,
+			tag: data.sys_tag || [],
+		}
+
+		await api.cmd('control-add', json);
+		await load.database();
+		await c.metadata.reset();
+		context.create();
+		new Notice(`${data.sys_type} ${data.sys_name} create`, 5000);
+	}, { name: 'add' })
+
+	return `
+# Add
+
+---
+
+type: \`INPUT[inlineSelect(
+	option(item),
+	option(database)
+):sys_type]\`
+
+${md.select_database('sys_select_database')}
+
+name: \`INPUT[text(placeholder(name)):sys_name]\`
+
+rule: \`INPUT[inlineSelect(
+	option(projects),
+	option(study),
+	option(source)
+):sys_rule]\`
+
+tag: \`INPUT[inlineList():sys_tag]\`
+
+${btn_add}
+
+`
+})
+
+```

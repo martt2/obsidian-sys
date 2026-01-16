@@ -1,0 +1,128 @@
+class event {
+
+    ini() {
+        Object.hasOwn(sys.main, 'event') || (sys.main.event = this)
+        Object.hasOwn(sys._, 'event') || (sys._.event = {})
+        Object.hasOwn(sys._, 'save_file') || (sys._.save_file = null)
+        Object.hasOwn(sys._, 'active_file') || (sys._.active_file = null)
+        Object.hasOwn(sys._.event, 'data') || (sys._.event.data = {})
+        Object.hasOwn(sys._.event, 'alias') || (sys._.event.alias = {})
+
+
+        for (const e of this.event_load) {
+            if (e.disable !== true) {
+                this.set(e)
+            }
+        }
+    }
+
+    set(e) {
+        const id = crypto.randomUUID()
+        typeof e.name !== 'undefined' && (sys._.event.alias[e.name] = [])
+        sys._.event.alias[e.name].push(id)
+        sys._.event.data[id] = e.target.on(e.action, e.fn, e)
+        return id
+    }
+
+    get(t, idx = 0) {
+        const id = Object.hasOwn(sys._.event.alias, t) ? sys._.event.alias[t][idx] : t
+        return sys._.event.data[id][idx]
+    }
+
+    change_metadata = [
+        {
+            disable: true,
+            target: 'sys_name',
+            fn() {
+                sys.main.api.time.run('sys_name', function () {
+                    console.log('name change')
+                })
+            }
+        }
+    ]
+
+    event_load = [
+        {
+            name: 'file_open',
+            action: 'file-open',
+            target: app.workspace,
+            fn(file = {}, ...arg) {
+                console.log('event context file_open')
+
+                const exe = (file) => {
+                    const { route } = sys._.event
+                    const { save_file } = sys._
+                    const exe = []
+
+                    const checkTerm = (termList) => {
+                        for (const term of termList) {
+                            if (file.path.match(term) != null) {
+                                return true
+                            }
+                        }
+                        return false
+                    }
+
+                    sys._.active_file = file
+
+                    if (save_file == null && file !== null) {
+                        console.log('open_first')
+                        exe.push('open_first')
+                    }
+                    if (file !== null) {
+                        console.log('open')
+                        exe.push('open')
+                    }
+                    if (file == null) {
+                        console.log('close')
+                        exe.push('close')
+                    }
+
+                    for (const termExe of exe) {
+                        const target = file || save_file
+                        const list = route[target.extension][termExe]
+
+                        if (typeof list !== 'undefined') {
+                            for (const { disable, termList, fn } of list) {
+                                if (checkTerm(termList) && disable !== true) {
+                                    fn(file)
+                                }
+                            }
+                        }
+                    }
+
+                    // console.log(['active',sys._.active_file])
+                    // console.log(['save',sys._.save_file])
+                }
+
+                setTimeout(exe, 1000, file)
+
+                sys._.save_file = file
+            }
+        },
+        {
+            disable: true,
+            name: 'change_metadata',
+            action: 'modify',
+            target: app.metadataCache,
+            fn: (file, data, cache) => {
+                console.log('event change_metadata')
+                const metadata = cache.frontmatter
+                const { static_metadata } = sys._.context[file.path]
+
+                for (const el of sys.main.event.change_metadata) {
+                    if (
+                        typeof metadata[el.target] !== 'undefined' &&
+                        metadata[el.target] !== static_metadata.value[el.target] &&
+                        el.disable !== true
+                    ) {
+                        el.fn()
+                    }
+
+                }
+
+                static_metadata.value = metadata
+            }
+        }
+    ]
+}

@@ -1,0 +1,50 @@
+class context {
+
+    ini() {
+        Object.hasOwn(sys.main, 'context') || (sys.main.context = this)
+        Object.hasOwn(sys._, 'context') || (sys._.context = {})
+    }
+
+    get() {
+        const file = sys._.active_file
+        if (typeof file !== 'object') throw new Error('file is undefined');
+
+        return {
+            metadata: sys.main.api.metadata(),
+            context_data: sys._.context[file.path]
+        }
+    }
+
+    set_fn(name, fn) {
+        const file = sys._.active_file
+        const context = sys._.context[file.path]
+        const _fn = (...arg) => fn(sys.main.context.get(), this, ...arg)
+        context.fn[name] = _fn
+    }
+
+    reset(prop) {
+        const file = sys._.active_file
+        const context = sys._.context[file.path]
+
+        if (Object.hasOwn(context, prop)) throw new Error('prop is undefined')
+
+        delete context[prop]
+        context[prop] = this.context_model()[prop]
+    }
+
+    create() {
+        const file = sys._.active_file
+        if (typeof file !== 'object') throw new Error('file is undefined');
+
+        sys._.context[file.path] = {
+            ...this.context_model(),
+            //static_metadata: sys.main.api.metadata()
+        }
+    }
+
+    context_model = () => ({
+        fn: {},
+        data: {},
+        render: {},
+    })
+}

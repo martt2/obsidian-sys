@@ -1,0 +1,261 @@
+class md {
+
+    ini() {
+        Object.hasOwn(sys.main, 'md') || (sys.main.md = this)
+    }
+
+    render(dv, ...args) {
+        const { context } = sys.main
+        const { context_data } = context.get()
+        const next_render = []
+
+        for (const fn of args) {
+            const res = fn(this._md(dv, context_data.render, next_render))
+            if (res !== null && typeof res !== 'undefined') dv.paragraph(res)
+        }
+
+        for (const comp of next_render) {
+            if (comp !== null && typeof comp !== 'undefined') dv.paragraph(comp)
+        }
+    }
+
+    _md(dv, render, next_render) {
+        const { lodash } = sys.main
+        const { components } = this
+        const new_render = lodash.cloneDeep(render)
+        let arr_name = []
+
+        function callback(obj) {
+            return new Proxy(obj, {
+                get(target, prop, receiver) {
+                    const exe = (id) => (...args) => {
+                        const res = def_value({
+                            md: callback(components),
+                            dv: dv,
+                        }, (() => {
+                            let update = false
+
+                            return {
+                                update() {
+                                    update = true
+                                },
+
+                                getUpdate() {
+                                    return update
+                                },
+
+                                id,
+                                comp: null,
+                                next: null
+                            }
+                        })(), ...args)
+
+                        Array.isArray(render[name]) ||
+                            (render[name] = [])
+
+                        typeof res.next !== null &&
+                            next_render.push(res.next)
+
+                        if (res.getUpdate() == true) {
+                            // const idx = render[name].findIndex((el) => el.id == id)
+                            let idx = 0;
+                            let isStop = false
+                            while (!isStop) {
+                                if (
+                                    typeof render[name][idx] == 'undefined' ||
+                                    render[name][idx].id == id
+                                ) {
+                                    isStop = true
+                                } else {
+                                    idx++
+                                }
+                            }
+
+                            render[name][idx] = res
+                        } else {
+                            render[name].unshift(res)
+                        }
+
+                        return res.comp
+                    }
+
+                    arr_name.push(prop)
+
+                    const def_value = Reflect.get(target, prop, receiver)
+
+                    if (typeof def_value === "object" && def_value !== null) {
+                        return callback(def_value)
+                    }
+
+                    const name = arr_name.join('_')
+
+                    if (
+                        Object.hasOwn(new_render, name) &&
+                        new_render[name].length > 0
+                    ) {
+                        const el = new_render[name].pop()
+
+                        if (el.getUpdate()) {
+                            return exe(el.id)
+                        }
+
+                        return () => el.comp
+                    }
+
+                    return exe(crypto.randomUUID())
+                }
+            })
+        }
+
+        return callback(components)
+    }
+
+    components = {
+        btn: ({ }, res, fn = () => { }, prop = {}) => {
+            const { context } = sys.main
+
+            prop = {
+                ...{
+                    name: fn.name,
+                    id: `btn_${res.id}`,
+                    icon: '',
+                    style: 'primary',
+                    class: [],
+                    cssStyle: '',
+                    backgroundImage: '',
+                    tooltip: ''
+                }, ...prop
+            }
+
+            const item = [
+                `\`\`\`meta-bind-button`,
+                `label: "${prop.name}"`,
+                `icon: "${prop.icon}"`,
+                `style: "${prop.style}"`,
+                `class: "${prop.class.join(',')}"`,
+                `cssStyle: "${prop.cssStyle}"`,
+                `backgroundImage: "${prop.backgroundImage}"`,
+                `tooltip: "${prop.tooltip}"`,
+                `id: "${prop.id}"`,
+                `hidden: true`,
+                `actions:`,
+                `  - type: inlineJS`,
+                `    code: "sys.main.context.get().context_data.fn['${prop.id}']()"`,
+                `    args: {}`,
+                `  - type: sleep`,
+                `    ms: 1000`,
+                `\`\`\``,
+            ].join('\n')
+
+            context.set_fn(prop.id, (...arg) => fn(prop, ...arg).then())
+
+            res.comp = `\`BUTTON[${prop.id}]\``
+            res.next = item
+
+            return res
+        },
+
+        select_database: ({ md }, res) => {
+            function conver_id_to_name() {
+                const res = []
+                for (const id of path) {
+                    res.push(sys.database[id].name)
+                }
+
+                return res.join('/')
+            }
+
+            const id_db = `select_database_${res.id}`
+            const { context } = sys.main
+            const { context_data } = context.get()
+
+            const btn_select = md.btn(async ({ }, { metadata, context_data }) => {
+                const file = sys._.active_file
+                const new_id = metadata.value[id_db]
+                context_data.data.path.push(new_id)
+                res.update()
+                app.vault.trigger('modify', file)
+            }, {
+                name: 'select'
+            })
+
+            const btn_back = md.btn(async ({ }, { metadata, context_data }) => {
+                if (context_data.data.path.length < 2) { return }
+
+                const file = sys._.active_file
+                context_data.data.path.pop()
+                res.update()
+                app.vault.trigger('modify', file)
+            }, {
+                name: 'back',
+                style: 'default',
+            })
+
+            typeof context_data.data.path !== 'obejct' &&
+                !Array.isArray(context_data.data.path) &&
+                (context_data.data.path = ['main'])
+
+            const path = context_data.data.path
+            const id_r = path.slice(-1)[0]
+            const { data } = sys.database[id_r]
+            const arr = []
+            const path_n = conver_id_to_name(path)
+
+            for (const id of data) {
+                const el = sys.database[id]
+                arr.push(`option(${el.id}, ${path_n}/${el.name})`)
+            }
+
+            res.comp = [
+                `data: \`${path_n}\``,
+                [
+                    `\`INPUT[inlineSelect(${arr.join(',')}):${id_db}]\``,
+                    btn_select,
+                    btn_back,
+                ].join(' ')
+            ].join('\n')
+
+            return res
+        },
+
+        flexbox: ({ dv }, res, ...listLi) => {
+            const div = dv.el("div", "", {
+                container: dv.container
+            })
+            const ul = dv.el("ul", "", {
+                container: div,
+                cls: "sys-flexbox-ul"
+            })
+
+            div.addClass("sys-flexbox-container")
+
+            ul.innerText = "";
+
+            for (const li of listLi) {
+                dv.el("li", li, {
+                    container: ul,
+                    cls: "sys-flexbox-li"
+                })
+            }
+
+            res.update()
+
+            return res
+        },
+
+        test: (...args) => {
+
+            const res = args[1]
+
+            res.comp = [
+                '```',
+                `id: ${res.id}`,
+                'test ok',
+                '```'
+            ].join('\n')
+
+            return res
+        }
+    }
+
+}

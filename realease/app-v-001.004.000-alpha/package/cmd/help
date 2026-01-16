@@ -1,0 +1,16 @@
+test: test
+ini: inicia o vault e o storage
+control-add: adiciona um novo item [database] [user] [name] [rule] [type] [tag]
+db-change-parent: muda de database [uuid] [database] [new_database]
+control-change-name: altera o nome [uuid] [name]
+
+conf-db-add: adiciona um novo database [uuid] [database] [name]
+conf-db-change: muda de database [uuid] [database]
+conf-db-remove: remove o database [uuid]
+storage-add: cria um storage [user] [name] [tags]
+storage-remove: remove um storage [id]
+workspace-link: ativa um workspace [id]
+workspace-unlink: remove um workspace [id]
+conf-get: retorna as configuracoes
+conf-set: define as configuracoes
+_database-create: cria database [uuid] [database] [name]

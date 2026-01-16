@@ -1,0 +1,31 @@
+```dataviewjs
+const { md } = sys.main
+
+md.render(dv,
+    () => `
+# Home - \`@${sys.conf.user}\`
+`,
+    (md) => md.flexbox(`
+## 📊 view
+Vizulaização dos dados
+[[database/view/main.base|main]] [[database/view/main-all.base|all]]
+`,
+`
+## 🗃️ Storages
+Gerenciador de **storages**
+[[page/add|add]]
+`,
+`
+## ⚙️ Config
+Configurações
+[[page/conf|conf]]
+`,
+`
+## 📚 Help
+Ajuda para usar o sistema
+[[page/help|help]]
+`
+    )
+)
+
+```

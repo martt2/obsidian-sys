@@ -1,0 +1,95 @@
+```dataviewjs
+const { md, api } = sys.main
+
+md.render(dv, (md) => {
+	const { db_file } = sys._
+	const db_file_data = api.metadata(db_file)
+	const data = api.metadata()
+	const fields = [
+		["sys_database", async (d1, d2) => {
+			api.cmd('db-change', {
+				uuid: d1.sys_id,
+				type: d1.sys_type,
+				database: d1.sys_database,
+				new_database: d2.sys_database,
+			})
+			
+			await sys.main.load.database()
+		}],
+		["sys_name", async (d1, d2) => {
+			if (d1.sys_type == 'database') {
+				api.cmd('db-change-name', {
+					uuid: d1.sys_id,
+					type: d1.sys_type,
+					new_name: d2.sys_name
+				})
+			}
+			
+			await sys.main.load.database()
+		}]
+		//["sys_rule", async (d1,d2)=>{}],
+		//["tags", async (d1,d2)=>{}]
+	]
+
+	const btn_edit = md.btn(async (prop, c) => {
+		const old_data = db_file_data.value
+		const new_data = {
+			...c.metadata.value,
+			sys_database: c.context_data.data.path.slice(-1)[0]
+		}
+
+		for (const [name, fn] of fields) {
+			const v1 = old_data[name]
+			const v2 = new_data[name]
+			if (v1 != v2) {
+				await fn(old_data, new_data)
+			}
+		}
+
+		db_file_data.set(el => {
+			for (const k of [
+			    'sys_id',
+			    'sys_database',
+			    'sys_user',
+			    'sys_name',
+			    'sys_rule',
+			    'sys_type',
+			    'sys_actived',
+			    'sys_archived',
+			    'tags'
+			]) {
+			    el[k] = new_data[k]
+			}
+		})
+
+		new Notice(
+			`${db_file_data.value.sys_type} ${db_file_data.value.sys_name} was edit`,
+			5000
+		);
+
+	}, { name: 'edit' })
+
+	return `
+# Edit
+
+---
+
+${md.select_database('sys_database')}
+
+name: \`INPUT[text(placeholder(name)):sys_name]\`
+
+rule: \`INPUT[inlineSelect(
+	option(projects),
+	option(study),
+	option(source)
+):sys_rule]\`
+
+tag: \`INPUT[inlineList():tags]\`
+
+${btn_edit}
+
+`
+
+})
+
+```

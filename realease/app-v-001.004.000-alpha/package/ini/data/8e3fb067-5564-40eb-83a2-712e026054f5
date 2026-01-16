@@ -1,0 +1,109 @@
+class api {
+
+    async ini() {
+        Object.hasOwn(sys.main, 'api') || (sys.main.api = this)
+        Object.hasOwn(sys._, 'timer') || (sys._.timer = {})
+    }
+
+    mode() {
+        const leaf = app.workspace.activeLeaf;
+        const set_mode = (mode) => {
+            leaf.setViewState({
+                ...leaf.getViewState(),
+                state: { ...leaf.view.getState(), mode: mode }
+            });
+        }
+
+        return {
+            edit: () => set_mode("source"),
+            view: () => set_mode("preview")
+        }
+    }
+
+    metadata(file) {
+        file = file || sys._.active_file
+        if (typeof file !== 'object') throw new Error('file is undefined');
+
+        // const modify = async (fn) => {
+        //     const file_str = await app.vault.read(file);
+        //     const [data_str, content] = file_str.startsWith('---') ?
+        //         file_str.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/).slice(1) :
+        //         ['', file_str]
+        //     const data = customJS.obsidian.parseYaml(data_str) || {};
+        //     const new_data = { ...fn(data) };
+        //     const new_data_str = customJS.obsidian.stringifyYaml(new_data);
+        //     const new_file_str = `---\n${new_data_str.trim()}\n---\n${content.trim()}`;
+        //     await app.vault.modify(file, new_file_str);
+        // }
+
+        const modify = async (fn) => {
+            await app.fileManager.processFrontMatter(file, fn)
+        }
+
+        const reset = async () => {
+            await app.fileManager.processFrontMatter(file, (o) => {
+                for (const k in o) {
+                    delete o[k]
+                }
+            })
+        }
+
+        const value = { ...app.metadataCache.getFileCache(file).frontmatter }
+
+        return {
+            value,
+            set: modify,
+            reset,
+        }
+    }
+
+    get_path_db(id) {
+        const res = [id]
+        let { parent } = sys.database[id]
+
+        while (parent !== null) {
+            res.push(parent)
+            id = sys.database[parent].id
+            parent = sys.database[id].parent
+        }
+
+        return res.reverse()
+    }
+
+    time = {
+        fn(label) {
+            if (typeof sys._.timer[label] == 'undefined') {
+                return
+            }
+
+            if (sys._.timer[label].count > 0) {
+                sys._.timer[label].count--
+                setTimeout(sys.main.api.time.fn, 5000, label)
+            } else {
+                // console.timeEnd()
+                // console.log('name change')
+                sys._.timer[label].fn(label)
+                delete sys._.timer[label]
+            }
+        },
+
+        run(label, fn) {
+            typeof sys._.timer[label] == 'undefined' &&
+                (sys._.timer[label] = {
+                    fn,
+                    count: 0
+                })
+            // sys._.timer[label] == 0 && setTimeout(time, 5000) && console.time()
+            sys._.timer[label].count == 0 &&
+                setTimeout(sys.main.api.time.fn, 5000, label)
+            sys._.timer[label].count++
+        }
+    }
+
+    async cmd(cmd = '', data = {}) {
+        return fetch(`http://localhost:${sys.conf.port}/cmd`, {
+            method: "POST",
+            body: JSON.stringify({ cmd, data })
+        })
+    }
+}

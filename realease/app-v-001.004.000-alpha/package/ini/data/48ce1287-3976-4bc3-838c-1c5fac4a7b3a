@@ -1,0 +1,47 @@
+class db {
+
+    ini() {
+        Object.hasOwn(sys.main, 'db') || (sys.main.db = this)
+    }
+
+    convert_to_arry_tree(db = {}, idStart = "") {
+        const recursive = ({ id = "", name = "", data = [] }) => {
+            if (data.length > 0) {
+                const res = []
+
+                for (const el of data) {
+                    const el1 = recursive(db[el])
+                    res.push(...el1)
+                }
+
+                return [name, res]
+            } else {
+                return [name]
+            }
+        }
+
+        return recursive(db[idStart])
+    }
+
+    convert_to_path(db = {}, idStart = "") {
+        const res = [];
+
+        const recursive = ({ id = "", name = "", data = [] }, path = []) => {
+            const obj = { path: [...path, name], id }
+            res.push(obj)
+
+            if (data.length > 0) {
+
+                for (const el of data) {
+                    const newPath = [...path, name]
+                    recursive(db[el], newPath)
+                }
+
+            }
+        }
+
+        recursive(db[idStart])
+        return res.filter(el => el)
+    }
+
+}

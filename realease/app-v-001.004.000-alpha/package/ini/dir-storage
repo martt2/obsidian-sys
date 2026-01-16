@@ -1,0 +1,15 @@
+/mnt/storage/conf
+/mnt/storage/custom
+/mnt/storage/custom/cmd
+/mnt/storage/custom/css
+/mnt/storage/custom/js
+/mnt/storage/data
+/mnt/storage/database
+/mnt/storage/database/data
+/mnt/storage/database/data/database
+/mnt/storage/database/data/database/main
+/mnt/storage/database/data/item
+/mnt/storage/database/data/item/main
+/mnt/storage/database/view
+/mnt/storage/lib-run
+/mnt/storage/

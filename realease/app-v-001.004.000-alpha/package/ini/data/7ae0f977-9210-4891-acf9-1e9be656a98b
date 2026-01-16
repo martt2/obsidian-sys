@@ -1,0 +1,178 @@
+class route {
+    ini() {
+        Object.hasOwn(sys.main, 'route_fn') || (sys.main.route_fn = this.route_fn)
+        Object.hasOwn(sys._, 'event') || (sys._.event = {})
+        Object.hasOwn(sys._.event, 'route') || (sys._.event.route = this.route)
+        Object.hasOwn(sys._, 'db_file') || (sys._.db_file = null)
+    }
+
+    route_fn = {
+        open_db() {
+            const { api, load } = sys.main
+
+            async function fn_remove(e, data) {
+                await api.cmd('control-remove', {
+                    uuid: data.value.sys_id,
+                    type: data.value.sys_type,
+                    database: data.value.sys_database,
+                });
+
+                await load.database();
+
+                new Notice(
+                    `${data.value.sys_type} ${data.value.sys_name} remove`,
+                    5000
+                );
+            }
+
+            async function fn_work(e, data) {
+                const { load } = sys.main
+                const { sys_id, sys_actived } = data.value
+                const alias = e.target.parentElement.querySelector('.sys-db-alias').value
+                const name = sys.work[sys_id] || alias || data.value.sys_name
+                // const isActived = typeof sys_actived !== 'undefined' || sys_actived !== ''
+                const isActived = sys_actived !== null
+                const [cmd, msg] = isActived ?
+                    ['work-unlink', `work ${name} unlink`] :
+                    ['work-link', `work ${name} link`]
+
+                await api.cmd(cmd, {
+                    uuid: sys_id,
+                    name
+                });
+
+                data.set(o => { o.sys_actived = isActived ? null : name })
+
+                await load.work()
+                new Notice(msg, 5000);
+            }
+
+            const eventFn = {
+                'link': async (e) => {
+                    const { attributes: props } = e.target
+                    const file = app.vault.getAbstractFileByPath(props.path.value)
+                    await app.workspace.getLeaf().openFile(file);
+                },
+                'actived': async (e) => {
+                    const { attributes: props } = e.target
+                    const file = app.vault.getAbstractFileByPath(props.path.value)
+                    const data = api.metadata(file)
+                    await fn_work(e, data)
+                },
+                'edit': async (e) => {
+                    const { attributes: props } = e.target
+                    const file = app.vault.getAbstractFileByPath('page/edit.md')
+                    sys._.db_file = app.vault.getAbstractFileByPath(props.path.value)
+                    await app.workspace.getLeaf().openFile(file);
+                },
+                'remove': async (e) => {
+                    const { attributes: props } = e.target
+                    sys._.db_file = app.vault.getAbstractFileByPath(props.path.value)
+                    const data = api.metadata(sys._.db_file)
+                    await fn_remove(e, data)
+                },
+            }
+
+            const view_content = window.document.querySelector('.view-content')
+
+            view_content.addEventListener('click', async (e) => {
+                const { classList } = e.target
+
+                for (const clas of classList) {
+                    const key = [clas.match('^sys-db-(.*)')].flat()[1]
+                    if (typeof key !== 'undefined' && key !== null) {
+                        const fn = eventFn[key]
+                        if (typeof fn == 'function') {
+                            await fn(e)
+                        }
+                    }
+                }
+            })
+        }
+    }
+
+    route = {
+        md: {
+            open: [
+                {
+                    termList: [
+                        '^page',
+                        '^home\.md$'
+                    ],
+                    fn() {
+                        const { context } = sys.main
+                        context.create()
+                    }
+                },
+                {
+                    termList: [
+                        '^page/edit.md'
+                    ],
+                    fn() {
+                        const { api, context } = sys.main
+                        const { db_file } = sys._
+                        const { metadata, context_data } = context.get()
+                        const db_file_data = api.metadata(db_file)
+
+                        context_data.data.path = api.get_path_db(db_file_data.value.sys_database)
+                        metadata.set(el => { Object.assign(el, db_file_data.value) })
+                    }
+                },
+                {
+                    termList: [
+                        '^home\.md$'
+                    ],
+                    fn() {
+                        const view_content = window.document.querySelector('.view-content')
+                        view_content.addEventListener('click', async (e) => {
+                            const href = e.target.attributes['data-href']
+                            if (
+                                typeof href === 'undefined' ||
+                                href.value.match('^database') === null
+                            ) return
+
+                            setTimeout(() => {
+                                const { route_fn } = sys.main
+                                route_fn.open_db()
+                            }, 1000)
+                        })
+                    }
+                }
+            ]
+        },
+        base: {
+            open: [
+                {
+                    disable: true,
+                    termList: [
+                        '^database/view/.*',
+                    ],
+
+                    fn(file) {
+                        const { route_fn } = sys.main
+                        setTimeout((file) => {
+                            const view_content = window.document.querySelector('.view-content')
+                            const arr = view_content.querySelectorAll('.sys-db-dbname')
+                            const { name } = sys.database[file.basename]
+
+                            for (const el of arr) {
+                                el.innerText = name
+                            }
+                        }, 1000, file)
+                    }
+                }
+            ],
+            open_first: [
+                {
+                    termList: [
+                        '^database/view/.*',
+                    ],
+                    fn() {
+                        const { route_fn } = sys.main
+                        route_fn.open_db()
+                    }
+                }
+            ]
+        }
+    }
+}

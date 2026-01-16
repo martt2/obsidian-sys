@@ -1,0 +1,24 @@
+---
+sys_arm: page-conf
+---
+
+```dataviewjs
+sys.main.api.mode().view()
+```
+
+# Conf
+---
+
+port : `$= sys.conf.port` : `INPUT[text():f_port]`
+
+user : `$= sys.conf.user` : `INPUT[text():f_user]`
+
+`BUTTON[btn-reload]`
+
+---
+
+Ir para: [[_home|_home]]
+
+```meta-bind-embed
+[[sys/model/btn-reload]]
+```
