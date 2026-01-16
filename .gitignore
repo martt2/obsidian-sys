@@ -2,3 +2,4 @@ env
 app/env
 gitignore
 .vscode
+.venv
